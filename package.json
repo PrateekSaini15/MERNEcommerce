@@ -1,0 +1,23 @@
+{
+  "name": "mernecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd Backend && npm start\" \"cd frontend && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PrateekSaini15/MERNEcommerce.git"
+  },
+  "author": "Prateek Saini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PrateekSaini15/MERNEcommerce/issues"
+  },
+  "homepage": "https://github.com/PrateekSaini15/MERNEcommerce#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
