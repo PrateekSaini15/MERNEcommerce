@@ -1,4 +1,8 @@
-import { SET_CURRENT_USER, LOGOUT_CURRENT_USER } from "./actionTypes";
+import {
+  SET_CURRENT_USER,
+  LOGOUT_CURRENT_USER,
+  LOGIN_ERROR,
+} from "./actionTypes";
 import axios from "../axios";
 
 export const loginUser = (loginDetails) => (dispatch) => {
@@ -9,7 +13,9 @@ export const loginUser = (loginDetails) => (dispatch) => {
       localStorage.setItem("token", token);
       dispatch({ type: SET_CURRENT_USER, payload: token });
     })
-    .catch((error) => console.log(error));
+    .catch((error) =>
+      dispatch({ type: LOGIN_ERROR, payload: error.response.data })
+    );
 };
 
 export const isLoggedin = () => (dispatch) => {

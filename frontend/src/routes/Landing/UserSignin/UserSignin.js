@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Alert } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -33,6 +33,7 @@ class UserSignin extends Component {
     if (this.props.auth.isAuthenticated) {
       return <Redirect to="/" />;
     }
+    const error = this.props.error.loginError;
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
@@ -45,6 +46,9 @@ class UserSignin extends Component {
               required
               onChange={this.handleChange}
             />
+            <Alert variant="danger" show={error.email ? true : false}>
+              {error.email}
+            </Alert>
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
@@ -56,6 +60,9 @@ class UserSignin extends Component {
               required
               onChange={this.handleChange}
             />
+            <Alert variant="danger" show={error.password ? true : false}>
+              {error.password}
+            </Alert>
           </Form.Group>
 
           <Button variant="primary" type="submit">
@@ -68,7 +75,7 @@ class UserSignin extends Component {
 }
 
 function mapStateToProps(state) {
-  return { auth: state.auth };
+  return { auth: state.auth, error: state.error };
 }
 
 export default connect(mapStateToProps, { loginUser, isLoggedin })(UserSignin);
