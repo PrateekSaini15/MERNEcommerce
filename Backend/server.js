@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import env from "dotenv";
+import cors from "cors";
 
 import userRoutes from "./routes/authRoute.js";
 import adminRoutes from "./routes/admin/adminAuthRoute.js";
@@ -9,7 +10,7 @@ env.config();
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 mongoose.connect(`mongodb://localhost/${process.env.MONGODB_DATABASE}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

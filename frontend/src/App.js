@@ -7,6 +7,8 @@ import Home from "./routes/Landing/Home/Home";
 import UserSignin from "./routes/Landing/UserSignin/UserSignin";
 import UserSignup from "./routes/Landing/UserSignup/UserSignup";
 import store from "./redux/store";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+
 class App extends React.Component {
   render() {
     return (
@@ -15,9 +17,9 @@ class App extends React.Component {
           <BrowserRouter>
             <Header />
             <Switch>
-              <Route path="/user/signin" component={UserSignin} />
-              <Route path="/user/signup" component={UserSignup} />
-              <Route path="/" component={Home} />
+              <Route exact={true} path="/user/signin" component={UserSignin} />
+              <Route exact={true} path="/user/signup" component={UserSignup} />
+              <ProtectedRoute exact={true} path="/" component={Home} />
             </Switch>
           </BrowserRouter>
         </Provider>
