@@ -62,6 +62,7 @@ export const signinController = (req, res) => {
       if (isMatch && user.role === "admin") {
         const payload = {
           _id: user._id,
+          role: user.role,
         };
         jwt.sign(
           payload,

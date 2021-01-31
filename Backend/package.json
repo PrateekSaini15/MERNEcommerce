@@ -19,6 +19,7 @@
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.14",
+    "slugify": "^1.4.6",
     "validator": "^13.5.2"
   },
   "devDependencies": {

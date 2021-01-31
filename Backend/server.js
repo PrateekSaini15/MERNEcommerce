@@ -5,6 +5,7 @@ import cors from "cors";
 
 import userRoutes from "./routes/authRoute.js";
 import adminRoutes from "./routes/admin/adminAuthRoute.js";
+import categoryRoutes from "./routes/categoryRoute.js";
 
 env.config();
 const app = express();
@@ -25,6 +26,7 @@ db.once("open", function () {
 
 app.use("/api", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/category", categoryRoutes);
 
 app.post("/", (req, res) => res.status(200).json(req.body));
 
