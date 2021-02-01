@@ -17,9 +17,9 @@ class App extends React.Component {
           <BrowserRouter>
             <Header />
             <Switch>
-              <Route exact={true} path="/user/signin" component={UserSignin} />
-              <Route exact={true} path="/user/signup" component={UserSignup} />
-              <ProtectedRoute exact={true} path="/" component={Home} />
+              <Route path="/user/signin" component={UserSignin} />
+              <Route path="/user/signup" component={UserSignup} />
+              <ProtectedRoute path="/" component={Home} />
             </Switch>
           </BrowserRouter>
         </Provider>
