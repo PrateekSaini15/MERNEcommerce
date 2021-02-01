@@ -6,8 +6,11 @@ import Header from "./components/Navbar/Header";
 import Home from "./routes/Landing/Home/Home";
 import UserSignin from "./routes/Landing/UserSignin/UserSignin";
 import UserSignup from "./routes/Landing/UserSignup/UserSignup";
+import AdminSignin from "./routes/Admin/AdminSignin/AdminSignin";
+import AdminHome from "./routes/Admin/AdminHome/AdminHome";
+import UserProtectedRoute from "./components/UserProtectedRoute/UserProtectedRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute/AdminProtectedRoute";
 import store from "./redux/store";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 class App extends React.Component {
   render() {
@@ -19,7 +22,9 @@ class App extends React.Component {
             <Switch>
               <Route path="/user/signin" component={UserSignin} />
               <Route path="/user/signup" component={UserSignup} />
-              <ProtectedRoute path="/" component={Home} />
+              <Route path="/admin/signin" component={AdminSignin} />
+              <AdminProtectedRoute path="/admin/home" component={AdminHome} />
+              <UserProtectedRoute path="/" component={Home} />
             </Switch>
           </BrowserRouter>
         </Provider>

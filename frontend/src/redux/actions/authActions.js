@@ -26,6 +26,6 @@ export const isLoggedin = () => (dispatch) => {
 };
 
 export const logoutUser = () => (dispatch) => {
-  localStorage.clear();
+  localStorage.removeItem("token");
   dispatch({ type: LOGOUT_CURRENT_USER });
 };

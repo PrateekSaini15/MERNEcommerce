@@ -19,6 +19,9 @@ class Header extends React.Component {
               <LinkContainer to="/user/signup">
                 <Nav.Link>Signup</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/admin/signin">
+                <Nav.Link>Admin Signin</Nav.Link>
+              </LinkContainer>
               <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">

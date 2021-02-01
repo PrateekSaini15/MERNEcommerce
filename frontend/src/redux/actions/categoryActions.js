@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, CREATE_CATEGORY } from "./actionTypes";
+import { FETCH_CATEGORIES } from "./actionTypes";
 
 import axios from "../axios";
 
