@@ -56,7 +56,7 @@ export const signinController = (req, res) => {
 
   User.findOne({ email }).then((user) => {
     if (!user) {
-      return res.status(400).json({ message: "Email does not exist." });
+      return res.status(400).json({ email: "Email does not exist." });
     }
     bcrypt.compare(password, user.hashPassword).then((isMatch) => {
       if (isMatch && user.role === "admin") {
@@ -73,7 +73,7 @@ export const signinController = (req, res) => {
           }
         );
       } else {
-        res.status(400).json({ message: "password is incorrect" });
+        res.status(400).json({ password: "password is incorrect" });
       }
     });
   });

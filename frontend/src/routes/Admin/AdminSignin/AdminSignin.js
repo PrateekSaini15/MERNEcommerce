@@ -37,7 +37,7 @@ class AdminSignin extends Component {
     if (this.props.admin.isAuthenticated) {
       return <Redirect to="/admin/home" />;
     }
-    const error = this.props.error;
+    const error = this.props.error.loginError;
     return (
       <>
         <Container>
