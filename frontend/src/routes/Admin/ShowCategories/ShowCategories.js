@@ -1,17 +1,39 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { ListGroup } from "react-bootstrap";
 
 import { fetchCategories } from "../../../redux/actions/categoryActions";
 
 class ShowCategories extends Component {
+  constructor(props) {
+    super(props);
+    this.createList = this.createList.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchCategories();
+  }
+
+  createList(categories) {
+    const currentCategory = [];
+    for (let i = 0; i < categories.length; i++) {
+      currentCategory.push(
+        <ListGroup.Item key={categories[i]._id}>
+          {categories[i].name}
+          {categories[i].children
+            ? this.createList(categories[i].children)
+            : null}
+        </ListGroup.Item>
+      );
+    }
+    return currentCategory;
   }
 
   render() {
     return (
       <>
-        <h1>Inside show categories</h1>
+        <h2>Categoreis</h2>
+        <ListGroup>{this.createList(this.props.categoryList)}</ListGroup>
       </>
     );
   }
@@ -19,7 +41,7 @@ class ShowCategories extends Component {
 
 function mapStateToProps(store) {
   return {
-    category: store.category,
+    categoryList: store.category.categoryList,
   };
 }
 

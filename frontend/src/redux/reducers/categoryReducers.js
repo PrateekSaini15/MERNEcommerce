@@ -1,12 +1,13 @@
 import { FETCH_CATEGORIES } from "../actions/actionTypes";
 
-const initialState = {};
+const initialState = {
+  categoryList: [],
+};
 
 export default function categoryReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_CATEGORIES:
-      console.log("Inside the category reducer");
-      return state;
+      return { ...state, categoryList: action.payload };
     default:
       return state;
   }
