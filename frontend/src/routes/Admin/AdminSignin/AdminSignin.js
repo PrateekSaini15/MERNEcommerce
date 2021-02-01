@@ -54,6 +54,9 @@ class AdminSignin extends Component {
               <Alert variant="danger" show={error.email ? true : false}>
                 {error.email}
               </Alert>
+              <Alert variant="danger" show={error.user ? true : false}>
+                {error.user}
+              </Alert>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">

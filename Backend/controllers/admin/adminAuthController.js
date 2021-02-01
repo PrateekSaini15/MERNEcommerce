@@ -73,6 +73,9 @@ export const signinController = (req, res) => {
           }
         );
       } else {
+        if (user.role !== "admin") {
+          res.status(400).json({ user: "You are not a admin user." });
+        }
         res.status(400).json({ password: "password is incorrect" });
       }
     });
