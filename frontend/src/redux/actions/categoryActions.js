@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES } from "./actionTypes";
+import { FETCH_CATEGORIES, CREATE_CATEGORY, LOGIN_ERROR } from "./actionTypes";
 
 import axios from "../axios";
 
@@ -12,6 +12,15 @@ export const fetchCategories = () => (dispatch) => {
     .catch((error) => console.log(error));
 };
 
-export const createCategory = () => (dispatch) => {
-  console.log("Creating a category");
+export const createCategory = (newCategory) => (dispatch) => {
+  console.log({ ...newCategory });
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+  axios
+    .post("/api/category/create", { ...newCategory })
+    .then((res) => dispatch({ type: CREATE_CATEGORY, payload: res.data }))
+    .catch((error) =>
+      dispatch({ type: LOGIN_ERROR, payload: error.response.data })
+    );
 };

@@ -27,8 +27,8 @@ function createCategoryList(categories, parentId = null) {
 
 export function createCategoryController(req, res) {
   const newCategory = {
-    name: req.body.name,
-    slug: slugify(req.body.name),
+    name: req.body.categoryName,
+    slug: slugify(req.body.categoryName),
   };
 
   if (req.body.parentId) {

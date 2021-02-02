@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Button } from "react-bootstrap";
 
 import { fetchCategories } from "../../../redux/actions/categoryActions";
-
 class ShowCategories extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      show: false,
+      newCategory: {
+        categoryName: "",
+        parentId: "",
+      },
+    };
     this.createList = this.createList.bind(this);
   }
 
