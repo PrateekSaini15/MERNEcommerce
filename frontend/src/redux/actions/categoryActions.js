@@ -13,7 +13,9 @@ export const fetchCategories = () => (dispatch) => {
 };
 
 export const createCategory = (newCategory) => (dispatch) => {
-  console.log({ ...newCategory });
+  if (newCategory.parentId === "root") {
+    delete newCategory.parentId;
+  }
   axios.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${localStorage.getItem("adminToken")}`;

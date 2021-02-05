@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ListGroup, Button } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 
 import { fetchCategories } from "../../../redux/actions/categoryActions";
 class ShowCategories extends Component {
