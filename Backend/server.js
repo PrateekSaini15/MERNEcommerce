@@ -2,11 +2,14 @@ import express from "express";
 import mongoose from "mongoose";
 import env from "dotenv";
 import cors from "cors";
-
+import { upload } from "./Middlewares/multer.js";
+//self made modules
 import userRoutes from "./routes/authRoute.js";
 import adminRoutes from "./routes/admin/adminAuthRoute.js";
 import categoryRoutes from "./routes/categoryRoute.js";
-
+import productRoutes from "./routes/productRoute.js";
+import { isAdmin } from "./Middlewares/isAdminMiddleware.js";
+//constants
 env.config();
 const app = express();
 
@@ -27,8 +30,7 @@ db.once("open", function () {
 app.use("/api", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
-
-app.post("/", (req, res) => res.status(200).json(req.body));
+app.use("/api/product", isAdmin, upload.array("productPicture"), productRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on ${process.env.PORT}`)
