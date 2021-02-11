@@ -1,6 +1,7 @@
 import Product from "../models/product.js";
 import slugify from "slugify";
 export function createProduct(req, res) {
+  console.log(req.body);
   const { name, price, quantity, category, description } = req.body;
   let productPictures = [];
   if (req.files.length > 0) {
