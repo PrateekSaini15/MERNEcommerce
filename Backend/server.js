@@ -31,7 +31,6 @@ app.use("/api", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", isAdmin, upload.array("productPicture"), productRoutes);
-app.use("/api/product", isAdmin, productRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on ${process.env.PORT}`)
