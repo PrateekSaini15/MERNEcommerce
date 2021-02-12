@@ -49,7 +49,7 @@ class AddProduct extends React.Component {
       form.append("productPicture", image);
     });
     this.props.addProduct(form);
-    this.props.history.push("/admin/home");
+    this.props.history.push("/admin/home/products");
   }
 
   render() {
