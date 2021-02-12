@@ -49,6 +49,7 @@ class AddProduct extends React.Component {
       form.append("productPicture", image);
     });
     this.props.addProduct(form);
+    this.props.history.push("/admin/home");
   }
 
   render() {
@@ -98,7 +99,7 @@ class AddProduct extends React.Component {
           <FormInput
             type="file"
             label="Images"
-            required={true}
+            required={false}
             multiple={true}
             onChange={this.handleChange}
           />

@@ -7,6 +7,6 @@ export const addProduct = (product) => (dispatch) => {
   ] = `Bearer ${localStorage.getItem("adminToken")}`;
   axios
     .post("/api/product/create", product)
-    .then((res) => console.log(res.data))
+    .then((res) => dispatch({ type: ADD_PRODUCT, payload: res.data }))
     .catch((error) => console.log(error));
 };
