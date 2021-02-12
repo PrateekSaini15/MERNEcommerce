@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getProductsForAdmin } from "../../../redux/actions/productActions";
+import {
+  getProductsForAdmin,
+  deleteProduct,
+} from "../../../redux/actions/productActions";
 class ShowProduct extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +21,14 @@ class ShowProduct extends React.Component {
         <td>{item.description}</td>
         <td>{item.price}</td>
         <td>{item.quantity}</td>
+        <td>
+          <button
+            className="btn"
+            onClick={() => this.props.deleteProduct(item._id)}
+          >
+            <i className="bi bi-trash" style={{ color: "red" }}></i>
+          </button>
+        </td>
       </tr>
     ));
     return markup;
@@ -50,4 +61,6 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(mapStateToProps, { getProductsForAdmin })(ShowProduct);
+export default connect(mapStateToProps, { getProductsForAdmin, deleteProduct })(
+  ShowProduct
+);

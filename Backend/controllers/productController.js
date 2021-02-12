@@ -31,7 +31,8 @@ export function getProduct(req, res) {
 }
 
 export function deleteProduct(req, res) {
-  Product.deleteOne({ createdBy: res.locals.user, _id: req.body._id })
+  const productId = req.params.productId;
+  Product.deleteOne({ createdBy: res.locals.user, _id: productId })
     .then((product) => res.status(200).json(product))
     .catch((error) => res.status(400).json(error));
 }

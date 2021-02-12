@@ -1,4 +1,8 @@
-import { ADD_PRODUCT, GET_PRODUCTS_FOR_ADMIN } from "../actions/actionTypes";
+import {
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  GET_PRODUCTS_FOR_ADMIN,
+} from "../actions/actionTypes";
 
 const initialState = {
   products: [],
@@ -10,6 +14,13 @@ export default function porductReducer(state = initialState, action) {
       return state;
     case GET_PRODUCTS_FOR_ADMIN:
       return { ...state, products: action.payload };
+    case DELETE_PRODUCT:
+      return {
+        ...state,
+        products: state.products.filter(
+          (product) => product._id !== action.payload
+        ),
+      };
     default:
       return state;
   }

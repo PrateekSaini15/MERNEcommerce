@@ -1,4 +1,8 @@
-import { ADD_PRODUCT, GET_PRODUCTS_FOR_ADMIN } from "./actionTypes";
+import {
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  GET_PRODUCTS_FOR_ADMIN,
+} from "./actionTypes";
 import axios from "../axios";
 
 export const addProduct = (product) => (dispatch) => {
@@ -20,6 +24,21 @@ export const getProductsForAdmin = () => (dispatch) => {
     .get("/api/product/get")
     .then((res) =>
       dispatch({ type: GET_PRODUCTS_FOR_ADMIN, payload: res.data })
+    )
+    .catch((error) => console.log(error));
+};
+
+export const deleteProduct = (productId) => (dispatch) => {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+
+  axios
+    .delete(`/api/product/delete/${productId}`)
+    .then((res) =>
+      res.data.deletedCount
+        ? dispatch({ type: DELETE_PRODUCT, payload: productId })
+        : console.log("not deleted")
     )
     .catch((error) => console.log(error));
 };
