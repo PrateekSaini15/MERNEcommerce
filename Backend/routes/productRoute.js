@@ -9,5 +9,5 @@ const route = express.Router();
 
 route.post("/create", createProduct);
 route.get("/get", getProduct);
-route.delete("/delete", deleteProduct);
+route.delete("/delete/:productId", deleteProduct);
 export default route;
