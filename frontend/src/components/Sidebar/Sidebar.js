@@ -18,6 +18,9 @@ class Sidebar extends Component {
           <LinkContainer to={`${match.url}/product/add`}>
             <Nav.Link>Add Product</Nav.Link>
           </LinkContainer>
+          <LinkContainer to={`${match.url}/products`}>
+            <Nav.Link>Show Products</Nav.Link>
+          </LinkContainer>
         </Nav>
       </>
     );
