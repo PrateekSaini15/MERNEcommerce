@@ -22,3 +22,9 @@ export function createProduct(req, res) {
     .then((product) => res.status(201).json(product))
     .catch((error) => res.status(400).json(error));
 }
+
+export function getProduct(req, res) {
+  Product.find({ createdBy: res.locals.user }).then((products) =>
+    res.status(201).json(products)
+  );
+}
