@@ -8,7 +8,9 @@ import userRoutes from "./routes/authRoute.js";
 import adminRoutes from "./routes/admin/adminAuthRoute.js";
 import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoute.js";
+import cartRoutes from "./routes/cartRoute.js";
 import { isAdmin } from "./Middlewares/isAdminMiddleware.js";
+import { isUser } from "./Middlewares/isUserMiddleware.js";
 //constants
 env.config();
 const app = express();
@@ -31,7 +33,7 @@ app.use("/api", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", isAdmin, upload.array("productPicture"), productRoutes);
-
+app.use("/api/cart", isUser, cartRoutes);
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on ${process.env.PORT}`)
 );
