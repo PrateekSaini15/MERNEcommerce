@@ -2,6 +2,7 @@ import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
   GET_PRODUCTS_FOR_ADMIN,
+  UPDATE_PRODUCT,
 } from "./actionTypes";
 import axios from "../axios";
 
@@ -40,5 +41,16 @@ export const deleteProduct = (productId) => (dispatch) => {
         ? dispatch({ type: DELETE_PRODUCT, payload: productId })
         : console.log("not deleted")
     )
+    .catch((error) => console.log(error));
+};
+
+export const updateProduct = (product) => (dispatch) => {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+
+  axios
+    .patch("api/product/update", product)
+    .then((res) => dispatch({ type: UPDATE_PRODUCT, payload: product }))
     .catch((error) => console.log(error));
 };
