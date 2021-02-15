@@ -2,6 +2,7 @@ import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
   GET_PRODUCTS_FOR_ADMIN,
+  UPDATE_PRODUCT,
 } from "./actionTypes";
 import axios from "../axios";
 
@@ -50,5 +51,6 @@ export const updateProduct = (product) => (dispatch) => {
 
   axios
     .patch("api/product/update", product)
-    .then((res) => console.log(res.data));
+    .then((res) => dispatch({ type: UPDATE_PRODUCT, payload: product }))
+    .catch((error) => console.log(error));
 };

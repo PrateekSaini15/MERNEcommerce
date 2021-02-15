@@ -2,6 +2,7 @@ import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
   GET_PRODUCTS_FOR_ADMIN,
+  UPDATE_PRODUCT,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -21,6 +22,8 @@ export default function porductReducer(state = initialState, action) {
           (product) => product._id !== action.payload
         ),
       };
+    case UPDATE_PRODUCT:
+      return state;
     default:
       return state;
   }

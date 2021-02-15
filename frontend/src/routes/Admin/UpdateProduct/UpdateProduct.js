@@ -5,7 +5,7 @@ import FormInput from "../../../components/FormInput/FormInput";
 import FormTextarea from "../../../components/FormTextarea/FormTextarea";
 import FormInputSelection from "../../../components/FormInputSelection/FormInputSelection";
 import { fetchCategories } from "../../../redux/actions/categoryActions";
-
+import { updateProduct } from "../../../redux/actions/productActions";
 class UpdateProduct extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +13,7 @@ class UpdateProduct extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.setValues = this.setValues.bind(this);
     this.state = {
+      _id: "",
       name: "",
       price: null,
       quantity: null,
@@ -33,13 +34,15 @@ class UpdateProduct extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
+    this.props.updateProduct(this.state);
+    this.props.history.push("/admin/home/products");
   }
 
   setValues() {
     const product = this.props.location.state;
     this.setState({
       ...this.state,
+      _id: product._id,
       name: product.name,
       price: product.price,
       quantity: product.quantity,
@@ -92,6 +95,12 @@ class UpdateProduct extends React.Component {
             required={true}
             onChange={this.handleChange}
           />
+          <button
+            className="btn btn-danger"
+            onClick={() => this.props.history.push("/admin/home/products")}
+          >
+            Cancel
+          </button>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
@@ -105,4 +114,6 @@ function mapStateToProps(store) {
   return { categories: store.category.categoryList };
 }
 
-export default connect(mapStateToProps, { fetchCategories })(UpdateProduct);
+export default connect(mapStateToProps, { fetchCategories, updateProduct })(
+  UpdateProduct
+);
