@@ -9,7 +9,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import AddCategory from "../AddCategory/AddCategory";
 import AddProduct from "../AddProduct/AddProduct";
 import ShowProduct from "../ShowProduct/ShowProduct";
-
+import UpdateProduct from "../UpdateProduct/UpdateProduct";
 class Home extends React.Component {
   render() {
     const { match } = this.props;
@@ -27,6 +27,10 @@ class Home extends React.Component {
             />
             <Route path={`${match.url}/category/add`} component={AddCategory} />
             <Route path={`${match.url}/product/add`} component={AddProduct} />
+            <Route
+              path={`${match.url}/product/update`}
+              component={UpdateProduct}
+            />
             <Route path={`${match.url}/products`} component={ShowProduct} />
           </Switch>
         </div>

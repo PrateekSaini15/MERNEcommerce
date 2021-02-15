@@ -36,6 +36,7 @@ class FormInputSelection extends React.Component {
         <div className="col-3">
           <select
             id={this.props.label.toLowerCase()}
+            value={this.props.value ? this.props.value : ""}
             required={this.props.required}
             className="form-select"
             onChange={this.props.onChange}

@@ -42,3 +42,13 @@ export const deleteProduct = (productId) => (dispatch) => {
     )
     .catch((error) => console.log(error));
 };
+
+export const updateProduct = (product) => (dispatch) => {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+
+  axios
+    .patch("api/product/update", product)
+    .then((res) => console.log(res.data));
+};

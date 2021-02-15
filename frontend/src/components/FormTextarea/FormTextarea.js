@@ -15,6 +15,7 @@ class FormTextarea extends React.Component {
         <div className="col-3">
           <textarea
             id={this.props.label.toLowerCase()}
+            value={this.props.value ? this.props.value : ""}
             required={this.props.required ? true : false}
             className="form-control"
             onChange={this.props.onChange}

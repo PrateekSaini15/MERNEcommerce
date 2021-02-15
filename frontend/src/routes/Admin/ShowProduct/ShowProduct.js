@@ -22,6 +22,20 @@ class ShowProduct extends React.Component {
         <td>{item.price}</td>
         <td>{item.quantity}</td>
         <td>
+          {" "}
+          <button
+            className="btn"
+            onClick={() => {
+              this.props.history.push({
+                pathname: "/admin/home/product/update",
+                state: item,
+              });
+            }}
+          >
+            <i className="bi bi-pencil" style={{ color: "green" }}></i>
+          </button>{" "}
+        </td>
+        <td>
           <button
             className="btn"
             onClick={() => this.props.deleteProduct(item._id)}
