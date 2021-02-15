@@ -1,4 +1,4 @@
-import { LOGIN_ADMIN_USER, LOGOUT_ADMIN_USER } from "../actions/actionTypes";
+import { SET_CURRENT_USER, LOGOUT_CURRENT_USER } from "../actions/actionTypes";
 
 const initialState = {
   isAuthenticated: false,
@@ -10,14 +10,14 @@ const initialState = {
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
-    case LOGIN_ADMIN_USER:
+    case SET_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: true,
         token: action.payload,
         isAuthenticating: false,
       };
-    case LOGOUT_ADMIN_USER:
+    case LOGOUT_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: false,

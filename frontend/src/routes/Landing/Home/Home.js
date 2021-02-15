@@ -13,7 +13,6 @@ class Home extends React.Component {
     const { match } = this.props;
     return (
       <>
-        <Sidebar />
         <Switch>
           <Route path={`${match.url}categories`} component={ShowCategories} />
           <Route path={`${match.url}category/add`} component={AddCategory} />
