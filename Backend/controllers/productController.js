@@ -36,3 +36,29 @@ export function deleteProduct(req, res) {
     .then((product) => res.status(200).json(product))
     .catch((error) => res.status(400).json(error));
 }
+
+export async function updateProduct(req, res) {
+  const productId = req.body._id;
+  let product;
+  try {
+    product = await Product.findById(productId).exec();
+    if (product === null) {
+      res.status(404).json({ message: "Product not found" });
+    }
+    const props = Object.keys(product.toObject());
+    props.forEach((prop) => {
+      if (req.body[prop] !== undefined) {
+        if (prop === "name") {
+          product["slug"] = slugify(req.body.name);
+        }
+        if (prop !== "_id") {
+          product[prop] = req.body[prop];
+        }
+      }
+    });
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+}
