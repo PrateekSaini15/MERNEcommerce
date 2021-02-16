@@ -5,12 +5,13 @@ import categoryReducer from "./categoryReducers";
 import adminReducer from "./adminAuthReducers";
 import productReducer from "./productReducers";
 import userProductReducer from "./userProductReducers";
-
+import cartReducer from "./cartReducers";
 export default combineReducers({
   auth: authReducer,
   admin: adminReducer,
   category: categoryReducer,
   product: productReducer,
   userProduct: userProductReducer,
+  cart: cartReducer,
   error: errorReducer,
 });
