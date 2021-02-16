@@ -16,6 +16,14 @@ export const addProduct = (product) => (dispatch) => {
     .catch((error) => console.log(error));
 };
 
+export const getallProducts = () => (dispatch) => {
+  axios.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
+    "token"
+  )}`;
+
+  axios.get("/api/product/getall").then((res) => console.log(res.data));
+};
+
 export const getProductsForAdmin = () => (dispatch) => {
   axios.defaults.headers.common[
     "Authorization"

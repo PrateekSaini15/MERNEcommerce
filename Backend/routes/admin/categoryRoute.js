@@ -1,10 +1,10 @@
 import express from "express";
 
-import { isAdmin } from "../Middlewares/isAdminMiddleware.js";
+import { isAdmin } from "../../Middlewares/isAdminMiddleware.js";
 import {
   createCategoryController,
   getCategoryController,
-} from "../controllers/categoryController.js";
+} from "../../controllers/categoryController.js";
 
 const route = express.Router();
 

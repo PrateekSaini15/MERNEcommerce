@@ -24,6 +24,15 @@ export function createProduct(req, res) {
     .catch((error) => res.status(400).json(error));
 }
 
+export async function getallProducts(req, res) {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
+
 export function getProduct(req, res) {
   Product.find({ createdBy: res.locals.user }).then((products) =>
     res.status(201).json(products)

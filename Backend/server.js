@@ -4,11 +4,12 @@ import env from "dotenv";
 import cors from "cors";
 import { upload } from "./Middlewares/multer.js";
 //self made modules
-import userRoutes from "./routes/authRoute.js";
+import userRoutes from "./routes/user/authRoute.js";
 import adminRoutes from "./routes/admin/adminAuthRoute.js";
-import categoryRoutes from "./routes/categoryRoute.js";
-import productRoutes from "./routes/productRoute.js";
-import cartRoutes from "./routes/cartRoute.js";
+import categoryRoutes from "./routes/admin/categoryRoute.js";
+import productRoutes from "./routes/admin/productRoute.js";
+import userProductRoutes from "./routes/user/userProductRoutes.js";
+import cartRoutes from "./routes/user/cartRoute.js";
 import { isAdmin } from "./Middlewares/isAdminMiddleware.js";
 import { isUser } from "./Middlewares/isUserMiddleware.js";
 //constants
@@ -32,6 +33,7 @@ db.once("open", function () {
 app.use("/api", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/user/product", userProductRoutes);
 app.use("/api/product", isAdmin, upload.array("productPicture"), productRoutes);
 app.use("/api/cart", isUser, cartRoutes);
 app.listen(process.env.PORT, () =>
