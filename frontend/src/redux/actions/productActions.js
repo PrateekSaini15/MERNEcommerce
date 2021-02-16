@@ -2,6 +2,7 @@ import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
   GET_PRODUCTS_FOR_ADMIN,
+  GET_PRODUCTS_FOR_USER,
   UPDATE_PRODUCT,
 } from "./actionTypes";
 import axios from "../axios";
@@ -17,11 +18,14 @@ export const addProduct = (product) => (dispatch) => {
 };
 
 export const getallProducts = () => (dispatch) => {
-  axios.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
-    "token"
-  )}`;
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("token")}`;
 
-  axios.get("/api/product/getall").then((res) => console.log(res.data));
+  axios
+    .get("/api/user/product/getall")
+    .then((res) => dispatch({ type: GET_PRODUCTS_FOR_USER, payload: res.data }))
+    .catch((error) => console.log(error));
 };
 
 export const getProductsForAdmin = () => (dispatch) => {

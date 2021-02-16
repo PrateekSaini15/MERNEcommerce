@@ -5,13 +5,27 @@ class Catalog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.getMarkup = this.getMarkup.bind(this);
   }
 
   componentDidMount() {
     this.props.getallProducts();
   }
 
+  getMarkup() {
+    const products = this.props.products;
+    const markup = products.map((product) => (
+      <tr key={product._id}>
+        <td>{product.name}</td>
+        <td>{product.description}</td>
+        <td>{product.price}</td>
+      </tr>
+    ));
+    return markup;
+  }
+
   render() {
+    const markup = this.getMarkup();
     return (
       <>
         <h4 className="display-4">Products</h4>
@@ -23,15 +37,19 @@ class Catalog extends React.Component {
               <th scope="col">Price</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>{markup}</tbody>
         </table>
       </>
     );
   }
 }
 
-function mapActionToProps() {
-  return { getallProducts };
+function mapStateToProps(store) {
+  return { products: store.userProduct.products };
 }
 
-export default connect(null, mapActionToProps)(Catalog);
+const mapActionToProps = {
+  getallProducts,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(Catalog);
