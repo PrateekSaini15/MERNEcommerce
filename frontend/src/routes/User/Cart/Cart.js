@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import { getCart } from "../../../redux/actions/cartActions";
 class Cart extends React.Component {
   constructor(props) {
     super(props);
@@ -8,13 +8,17 @@ class Cart extends React.Component {
     this.createMarkup = this.createMarkup.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCart();
+  }
+
   createMarkup() {
     const items = this.props.items;
     const markup = items.map((item) => (
-      <tr>
-        <td>{item.name}</td>
+      <tr key={item.name}>
+        <td>{item.productName}</td>
         <td>{item.price}</td>
-        <td>{item.cartQuantity}</td>
+        <td>{item.quantity}</td>
       </tr>
     ));
     return markup;
@@ -35,6 +39,9 @@ class Cart extends React.Component {
           </thead>
           <tbody>{markup}</tbody>
         </table>
+        <button className="btn btn-outline-success btn-lg">
+          <i className="bi bi-cart-check-fill" style={{ color: "green" }}></i>
+        </button>
       </>
     );
   }
@@ -42,5 +49,5 @@ class Cart extends React.Component {
 function mapStateToProps(store) {
   return { items: store.cart.items };
 }
-const mapActionToProps = {};
+const mapActionToProps = { getCart };
 export default connect(mapStateToProps, mapActionToProps)(Cart);

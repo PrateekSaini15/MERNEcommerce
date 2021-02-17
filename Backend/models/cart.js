@@ -9,9 +9,13 @@ const cart = new mongoose.Schema(
     },
     cartItems: [
       {
-        product: {
+        productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Proudct",
+          required: true,
+        },
+        productName: {
+          type: String,
           required: true,
         },
         quantity: { type: Number, default: 1 },

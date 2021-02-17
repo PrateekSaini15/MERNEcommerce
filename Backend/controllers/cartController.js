@@ -1,4 +1,3 @@
-import { json } from "express";
 import Cart from "../models/cart.js";
 
 export async function addToCart(req, res) {
@@ -8,7 +7,7 @@ export async function addToCart(req, res) {
     try {
       let productExist = false;
       for (let i = 0; i < cart.cartItems.length; i++) {
-        if (cart.cartItems[i].product == req.body.item.product) {
+        if (cart.cartItems[i].productId == req.body.item.productId) {
           cart.cartItems[i].quantity += req.body.item.quantity;
           productExist = true;
         }
@@ -20,7 +19,7 @@ export async function addToCart(req, res) {
       res.status(200).json(updatedCart);
     } catch (error) {
       console.log(error);
-      json.status(400).json(error);
+      res.status(400).json(error);
     }
   } else {
     const cart = new Cart({
@@ -34,5 +33,16 @@ export async function addToCart(req, res) {
       console.log(error);
       res.json(error);
     }
+  }
+}
+
+export async function getCart(req, res) {
+  const user = res.locals.user;
+  try {
+    const cart = await Cart.findOne({ user: user }).exec();
+    res.status(200).json(cart);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
   }
 }
