@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getallProducts } from "../../../redux/actions/productActions";
+import { addToCart } from "../../../redux/actions/cartActions";
 class Catalog extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +20,11 @@ class Catalog extends React.Component {
         <td>{product.name}</td>
         <td>{product.description}</td>
         <td>{product.price}</td>
+        <td>
+          <button className="btn" onClick={() => this.props.addToCart(product)}>
+            <i className="bi bi-cart-plus" style={{ color: "green" }}></i>
+          </button>
+        </td>
       </tr>
     ));
     return markup;
@@ -50,6 +56,7 @@ function mapStateToProps(store) {
 
 const mapActionToProps = {
   getallProducts,
+  addToCart,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Catalog);
