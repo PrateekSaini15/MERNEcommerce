@@ -46,3 +46,16 @@ export async function getCart(req, res) {
     res.status(400).json(error);
   }
 }
+
+export async function clearCart(req, res) {
+  const user = res.locals.user;
+  try {
+    const cart = await Cart.findOne({ user: user }).exec();
+    cart.cartItems = [];
+    const updatedCart = await cart.save();
+    res.status(200).json(updatedCart);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json(error);
+  }
+}
