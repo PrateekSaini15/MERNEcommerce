@@ -8,8 +8,12 @@ import { Nav } from "react-bootstrap";
 import { logoutUser } from "../../../redux/actions/authActions";
 import Catalog from "../Catalog/Catalog";
 import Cart from "../../User/Cart/Cart";
-
+import { getCart } from "../../../redux/actions/cartActions";
 class Home extends React.Component {
+  componentDidMount() {
+    this.props.getCart();
+  }
+
   render() {
     const { match } = this.props;
     return (
@@ -19,7 +23,15 @@ class Home extends React.Component {
             <Nav.Link>Products</Nav.Link>
           </LinkContainer>
           <LinkContainer to={`${match.url}cart`}>
-            <Nav.Link>Cart</Nav.Link>
+            <Nav.Link>
+              Cart(
+              {this.props.items.length
+                ? this.props.items.reduce((total, item) => {
+                    return total + item.quantity;
+                  }, 0)
+                : 0}
+              )
+            </Nav.Link>
           </LinkContainer>
         </Nav>
         <Switch>
@@ -32,4 +44,10 @@ class Home extends React.Component {
   }
 }
 
-export default connect(null, { logoutUser })(Home);
+function mapStateToProps(store) {
+  return { items: store.cart.items };
+}
+
+const mapActionToProps = { logoutUser, getCart };
+
+export default connect(mapStateToProps, mapActionToProps)(Home);

@@ -43,3 +43,16 @@ export const clearCart = () => (dispatch) => {
     )
     .catch((error) => console.log(error));
 };
+
+export const removeItem = (item) => (dispatch) => {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("token")}`;
+
+  axios
+    .post("/api/cart/delete", { item: { productId: item.productId } })
+    .then((res) =>
+      dispatch({ type: ADD_PRODUCT_TO_CART, payload: res.data.cartItems })
+    )
+    .catch((error) => console.log(error));
+};
