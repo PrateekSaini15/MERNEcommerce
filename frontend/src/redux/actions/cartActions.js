@@ -31,3 +31,15 @@ export const getCart = () => (dispatch) => {
     })
     .catch((error) => console.log(error));
 };
+
+export const clearCart = () => (dispatch) => {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("token")}`;
+  axios
+    .get("/api/cart/clear")
+    .then((res) =>
+      dispatch({ type: ADD_PRODUCT_TO_CART, payload: res.data.cartItems })
+    )
+    .catch((error) => console.log(error));
+};
