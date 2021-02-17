@@ -59,3 +59,28 @@ export async function clearCart(req, res) {
     res.status(400).json(error);
   }
 }
+
+export async function removeItem(req, res) {
+  const user = res.locals.user;
+  const item = req.body.item;
+  try {
+    const cart = await Cart.findOne({ user: user }).exec();
+    for (let i = 0; i < cart.cartItems.length; i++) {
+      if (cart.cartItems[i].productId == item.productId) {
+        if (cart.cartItems[i].quantity > 1) {
+          cart.cartItems[i].quantity--;
+        } else {
+          console.log("item quantity is one");
+          cart.cartItems = cart.cartItems.filter(
+            (itm) => itm.productId != item.productId
+          );
+        }
+      }
+    }
+    const updatedCart = await cart.save();
+    res.status(200).json(updatedCart);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+}
