@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCart, clearCart } from "../../../redux/actions/cartActions";
+import {
+  getCart,
+  clearCart,
+  removeItem,
+} from "../../../redux/actions/cartActions";
 class Cart extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +23,16 @@ class Cart extends React.Component {
         <td>{item.productName}</td>
         <td>{item.price}</td>
         <td>{item.quantity}</td>
+        <td>
+          <button
+            className="btn"
+            onClick={() => {
+              this.props.removeItem(item);
+            }}
+          >
+            <i className="bi bi-cart-x" style={{ color: "red" }}></i>
+          </button>
+        </td>
       </tr>
     ));
     return markup;
@@ -49,5 +63,5 @@ class Cart extends React.Component {
 function mapStateToProps(store) {
   return { items: store.cart.items };
 }
-const mapActionToProps = { getCart, clearCart };
+const mapActionToProps = { getCart, clearCart, removeItem };
 export default connect(mapStateToProps, mapActionToProps)(Cart);
