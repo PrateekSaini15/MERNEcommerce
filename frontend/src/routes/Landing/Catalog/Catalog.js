@@ -8,6 +8,7 @@ class Catalog extends React.Component {
     super(props);
     this.state = {
       currentCategory: "",
+      currentSortTypeForPrice: "default",
     };
     this.getMarkup = this.getMarkup.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -16,6 +17,7 @@ class Catalog extends React.Component {
     this.getChildrenCategory = this.getChildrenCategory.bind(this);
     this.addCategoryToList = this.addCategoryToList.bind(this);
     this.numberFormat = this.numberFormat.bind(this);
+    this.sortProductsByPrice = this.sortProductsByPrice.bind(this);
   }
 
   componentDidMount() {
@@ -69,27 +71,40 @@ class Catalog extends React.Component {
     }
   }
 
+  sortProductsByPrice(a, b) {
+    const sortType = this.state.currentSortTypeForPrice;
+    if (sortType === "default") {
+      return a;
+    } else if (sortType === "ascending") {
+      return a.price - b.price;
+    } else if (sortType === "descending") {
+      return b.price - a.price;
+    }
+  }
+
   getMarkup() {
     const products = this.props.products;
-    const markup = products.map((product) => {
-      let mark;
-      if (this.state.currentCategory === "") {
-        mark = this.createMarkup(product);
-      } else {
-        let category = [];
-        this.getChildrenCategory(this.props.categories, category);
-
-        if (category.includes(product.category)) {
+    const markup = [...products]
+      .sort(this.sortProductsByPrice)
+      .map((product) => {
+        let mark;
+        if (this.state.currentCategory === "") {
           mark = this.createMarkup(product);
+        } else {
+          let category = [];
+          this.getChildrenCategory(this.props.categories, category);
+
+          if (category.includes(product.category)) {
+            mark = this.createMarkup(product);
+          }
         }
-      }
-      return mark;
-    });
+        return mark;
+      });
     return markup;
   }
 
   handleChange(event) {
-    this.setState({ ...this.state, currentCategory: event.target.value });
+    this.setState({ ...this.state, [event.target.id]: event.target.value });
   }
 
   createList(list, options) {
@@ -114,10 +129,19 @@ class Catalog extends React.Component {
         <h4 className="display-4">Products</h4>
         <form className="form-inline">
           <CategoryList
-            id="category"
+            id="currentCategory"
             default="All"
             onChange={this.handleChange}
           />
+          <select
+            id="currentSortTypeForPrice"
+            className="form-select"
+            onChange={this.handleChange}
+          >
+            <option value="default">default</option>
+            <option value="ascending">Low to high</option>
+            <option value="descending">High to low</option>
+          </select>
         </form>
         <table className="table">
           <thead>
