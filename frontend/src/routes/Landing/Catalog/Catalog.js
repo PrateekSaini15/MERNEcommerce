@@ -127,22 +127,27 @@ class Catalog extends React.Component {
     return (
       <>
         <h4 className="display-4">Products</h4>
-        <form className="form-inline">
-          <CategoryList
-            id="currentCategory"
-            default="All"
-            onChange={this.handleChange}
-          />
-          <select
-            id="currentSortTypeForPrice"
-            className="form-select"
-            onChange={this.handleChange}
-          >
-            <option value="default">default</option>
-            <option value="ascending">Low to high</option>
-            <option value="descending">High to low</option>
-          </select>
-        </form>
+
+        <div className="row">
+          <div className="col-2">
+            <CategoryList
+              id="currentCategory"
+              default="All"
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="col-2">
+            <select
+              id="currentSortTypeForPrice"
+              className="form-select"
+              onChange={this.handleChange}
+            >
+              <option value="default">default</option>
+              <option value="ascending">Low to high</option>
+              <option value="descending">High to low</option>
+            </select>
+          </div>
+        </div>
         <table className="table">
           <thead>
             <tr>
