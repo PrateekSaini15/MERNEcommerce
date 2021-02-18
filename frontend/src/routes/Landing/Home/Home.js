@@ -18,27 +18,33 @@ class Home extends React.Component {
     const { match } = this.props;
     return (
       <>
-        <Nav className="flex-column">
-          <LinkContainer to={`${match.url}products`}>
-            <Nav.Link>Products</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to={`${match.url}cart`}>
-            <Nav.Link>
-              Cart(
-              {this.props.items.length
-                ? this.props.items.reduce((total, item) => {
-                    return total + item.quantity;
-                  }, 0)
-                : 0}
-              )
-            </Nav.Link>
-          </LinkContainer>
-        </Nav>
-        <Switch>
-          <Route path={`${match.url}products`} component={Catalog} />
-          <Route path={`${match.url}cart`} component={Cart} />
-        </Switch>
-        <Button onClick={this.props.logoutUser}>Logout</Button>
+        <div className="row">
+          <div className="col-2">
+            <Nav className="flex-column">
+              <LinkContainer to={`${match.url}products`}>
+                <Nav.Link>Products</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to={`${match.url}cart`}>
+                <Nav.Link>
+                  Cart(
+                  {this.props.items.length
+                    ? this.props.items.reduce((total, item) => {
+                        return total + item.quantity;
+                      }, 0)
+                    : 0}
+                  )
+                </Nav.Link>
+              </LinkContainer>
+            </Nav>
+            <Button onClick={this.props.logoutUser}>Logout</Button>
+          </div>
+          <div className="col-10">
+            <Switch>
+              <Route path={`${match.url}products`} component={Catalog} />
+              <Route path={`${match.url}cart`} component={Cart} />
+            </Switch>
+          </div>
+        </div>
       </>
     );
   }
