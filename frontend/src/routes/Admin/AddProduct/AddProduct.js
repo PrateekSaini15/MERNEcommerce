@@ -60,12 +60,14 @@ class AddProduct extends React.Component {
           <FormInput
             type="text"
             label="Name"
+            value={this.state.name}
             required={true}
             onChange={this.handleChange}
           />
           <FormInputSelection
             type="text"
             label="Category"
+            value={this.state.category}
             required={true}
             list={this.props.categories}
             default="select a category"
@@ -75,6 +77,7 @@ class AddProduct extends React.Component {
             type="number"
             min={1}
             label="Price"
+            value={this.state.price}
             required={true}
             onChange={this.handleChange}
           />
@@ -82,12 +85,14 @@ class AddProduct extends React.Component {
             type="number"
             min={1}
             label="Quantity"
+            value={this.state.quantity}
             required={true}
             onChange={this.handleChange}
           />
           <FormTextarea
             type="textarea"
             label="Description"
+            value={this.state.description}
             required={true}
             onChange={this.handleChange}
           />
