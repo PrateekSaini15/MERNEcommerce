@@ -8,9 +8,17 @@ class ShowProduct extends React.Component {
   constructor(props) {
     super(props);
     this.createProductListMarkup = this.createProductListMarkup.bind(this);
+    this.numberFormat = this.numberFormat.bind(this);
   }
   componentDidMount() {
     this.props.getProductsForAdmin();
+  }
+
+  numberFormat(value) {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+    }).format(value);
   }
 
   createProductListMarkup() {
@@ -19,7 +27,7 @@ class ShowProduct extends React.Component {
       <tr key={item._id}>
         <td>{item.name}</td>
         <td>{item.description}</td>
-        <td>{item.price}</td>
+        <td>{this.numberFormat(item.price)}</td>
         <td>{item.quantity}</td>
         <td>
           {" "}
@@ -72,6 +80,7 @@ class ShowProduct extends React.Component {
 function mapStateToProps(store) {
   return {
     products: store.product.products,
+    remount: store.product.remount,
   };
 }
 

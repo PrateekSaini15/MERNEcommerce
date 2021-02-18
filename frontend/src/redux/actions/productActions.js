@@ -63,6 +63,6 @@ export const updateProduct = (product) => (dispatch) => {
 
   axios
     .patch("api/product/update", product)
-    .then((res) => dispatch({ type: UPDATE_PRODUCT, payload: product }))
+    .then((res) => dispatch({ type: UPDATE_PRODUCT, payload: res.data }))
     .catch((error) => console.log(error));
 };
