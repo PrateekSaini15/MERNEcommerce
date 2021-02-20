@@ -3,12 +3,17 @@ import { connect } from "react-redux";
 import { getallProducts } from "../../../redux/actions/productActions";
 import { addToCart } from "../../../redux/actions/cartActions";
 import CategoryList from "../../../components/CategorySelect/CategorySelect";
+import Pagination from "../../../components/PaginationComponent/PaginationComponent";
 class Catalog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentCategory: "",
       currentSortTypeForPrice: "default",
+      currentPage: 1,
+      pageSize: 5,
+      startIndex: 0,
+      endIndex: 1,
     };
     this.getMarkup = this.getMarkup.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -18,10 +23,27 @@ class Catalog extends React.Component {
     this.addCategoryToList = this.addCategoryToList.bind(this);
     this.numberFormat = this.numberFormat.bind(this);
     this.sortProductsByPrice = this.sortProductsByPrice.bind(this);
+    this.setStartEndIndex = this.setStartEndIndex.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.getFilterProductsLength = this.getFilterProductsLength.bind(this);
   }
 
   componentDidMount() {
     this.props.getallProducts();
+  }
+
+  setStartEndIndex(newPage) {
+    const { pageSize } = this.state;
+    const totalItems = this.getFilterProductsLength();
+    const currentPage = newPage;
+    let startIndex = (currentPage - 1) * pageSize;
+    let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+    this.setState({
+      ...this.state,
+      startIndex: startIndex,
+      endIndex: endIndex,
+      currentPage: newPage,
+    });
   }
 
   numberFormat(value) {
@@ -84,27 +106,33 @@ class Catalog extends React.Component {
 
   getMarkup() {
     const products = this.props.products;
-    const markup = [...products]
+    const tempMarkup = [...products]
       .sort(this.sortProductsByPrice)
       .map((product) => {
-        let mark;
+        let mark = "";
         if (this.state.currentCategory === "") {
           mark = this.createMarkup(product);
         } else {
           let category = [];
           this.getChildrenCategory(this.props.categories, category);
-
           if (category.includes(product.category)) {
             mark = this.createMarkup(product);
           }
         }
         return mark;
       });
-    return markup;
+
+    const markup = tempMarkup.filter((markup) => markup !== "");
+
+    return markup.slice(this.state.startIndex, this.state.endIndex + 1);
   }
 
   handleChange(event) {
     this.setState({ ...this.state, [event.target.id]: event.target.value });
+  }
+
+  handlePageChange(newPage) {
+    this.setStartEndIndex(newPage);
   }
 
   createList(list, options) {
@@ -122,8 +150,25 @@ class Catalog extends React.Component {
     return options;
   }
 
+  getFilterProductsLength() {
+    let length = 0;
+    if (this.state.currentCategory === "") {
+      length = this.props.products.length;
+    } else {
+      let category = [];
+      this.getChildrenCategory(this.props.categories, category);
+      this.props.products.forEach((product) => {
+        if (category.includes(product.category)) {
+          length++;
+        }
+      });
+    }
+    return length;
+  }
+
   render() {
     const markup = this.getMarkup();
+    const totalItems = this.getFilterProductsLength();
     return (
       <>
         <h4 className="display-4">Products</h4>
@@ -158,6 +203,12 @@ class Catalog extends React.Component {
           </thead>
           <tbody>{markup}</tbody>
         </table>
+        <Pagination
+          currentPage={this.state.currentPage}
+          totalItems={totalItems}
+          pageSize={this.state.pageSize}
+          handlePageChange={this.handlePageChange}
+        />
       </>
     );
   }
