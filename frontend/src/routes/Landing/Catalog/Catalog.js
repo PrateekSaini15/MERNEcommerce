@@ -124,7 +124,7 @@ class Catalog extends React.Component {
 
     const markup = tempMarkup.filter((markup) => markup !== "");
 
-    return markup.slice(this.props.startIndex, this.props.endIndex);
+    return markup.slice(this.state.startIndex, this.state.endIndex + 1);
   }
 
   handleChange(event) {
