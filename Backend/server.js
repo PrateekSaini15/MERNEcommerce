@@ -9,6 +9,7 @@ import adminRoutes from "./routes/admin/adminAuthRoute.js";
 import categoryRoutes from "./routes/admin/categoryRoute.js";
 import productRoutes from "./routes/admin/productRoute.js";
 import userProductRoutes from "./routes/user/userProductRoutes.js";
+import merchantRoutes from "./routes/merchant/merchantRoutes.js";
 import cartRoutes from "./routes/user/cartRoute.js";
 import { isAdmin } from "./Middlewares/isAdminMiddleware.js";
 import { isUser } from "./Middlewares/isUserMiddleware.js";
@@ -33,6 +34,7 @@ db.once("open", function () {
 app.use("/api", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/merchant/", isAdmin, merchantRoutes);
 app.use("/api/user/product", userProductRoutes);
 app.use("/api/product", isAdmin, upload.array("productPicture"), productRoutes);
 app.use("/api/cart", isUser, cartRoutes);
