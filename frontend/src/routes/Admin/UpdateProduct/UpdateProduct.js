@@ -45,7 +45,6 @@ class UpdateProduct extends React.Component {
       _id: product._id,
       name: product.name,
       price: product.price,
-      quantity: product.quantity,
       description: product.description,
       category: product.category,
     });
@@ -77,14 +76,6 @@ class UpdateProduct extends React.Component {
             min={1}
             label="Price"
             value={this.state.price}
-            required={true}
-            onChange={this.handleChange}
-          />
-          <FormInput
-            type="number"
-            min={1}
-            label="Quantity"
-            value={this.state.quantity}
             required={true}
             onChange={this.handleChange}
           />
