@@ -30,6 +30,19 @@ class ShowProduct extends React.Component {
         <td>{this.numberFormat(item.price)}</td>
         <td>{item.quantity}</td>
         <td>
+          <button
+            className="btn"
+            onClick={() => {
+              this.props.history.push({
+                pathname: "/admin/home/inventory",
+                state: item,
+              });
+            }}
+          >
+            <i className="bi bi-clipboard"></i>
+          </button>
+        </td>
+        <td>
           {" "}
           <button
             className="btn"
