@@ -1,5 +1,5 @@
 import Product from "../models/product.js";
-import Invenotry from "../models/inventory.js";
+import Inventory from "../models/inventory.js";
 import slugify from "slugify";
 
 export async function createProduct(req, res) {
@@ -20,7 +20,7 @@ export async function createProduct(req, res) {
 
   try {
     const newProduct = await product.save();
-    const inventory = new Invenotry({
+    const inventory = new Inventory({
       productId: newProduct._id,
       stockQuantity: quantity,
     });
@@ -47,11 +47,24 @@ export function getProduct(req, res) {
   );
 }
 
-export function deleteProduct(req, res) {
+export async function deleteProduct(req, res) {
   const productId = req.params.productId;
-  Product.deleteOne({ createdBy: res.locals.user, _id: productId })
-    .then((product) => res.status(200).json(product))
-    .catch((error) => res.status(400).json(error));
+  try {
+    const deletedProduct = await Product.deleteOne({
+      createdBy: res.locals.user,
+      _id: productId,
+    });
+    const deletedProductFromInventory = await Inventory.deleteMany({
+      productId: productId,
+    });
+    res.status(200).json({
+      product: deletedProduct,
+      productInventory: deletedProductFromInventory,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
 }
 
 export async function updateProduct(req, res) {

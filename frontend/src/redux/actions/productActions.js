@@ -13,7 +13,9 @@ export const addProduct = (product) => (dispatch) => {
   ] = `Bearer ${localStorage.getItem("adminToken")}`;
   axios
     .post("/api/product/create", product)
-    .then((res) => dispatch({ type: ADD_PRODUCT, payload: res.data.product }))
+    .then((res) => {
+      dispatch({ type: ADD_PRODUCT, payload: res.data.product });
+    })
     .catch((error) => console.log(error));
 };
 
@@ -49,7 +51,7 @@ export const deleteProduct = (productId) => (dispatch) => {
   axios
     .delete(`/api/product/delete/${productId}`)
     .then((res) =>
-      res.data.deletedCount
+      res.data.product.deletedCount
         ? dispatch({ type: DELETE_PRODUCT, payload: productId })
         : console.log("not deleted")
     )
