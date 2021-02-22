@@ -1,7 +1,8 @@
 import Product from "../models/product.js";
+import Inventory from "../models/inventory.js";
 import slugify from "slugify";
 
-export function createProduct(req, res) {
+export async function createProduct(req, res) {
   const { name, price, quantity, category, description } = req.body;
   let productPictures = [];
   if (req.files.length > 0) {
@@ -11,17 +12,24 @@ export function createProduct(req, res) {
     name,
     slug: slugify(name),
     price,
-    quantity,
     category,
     productPictures,
     description,
     createdBy: res.locals.user,
   });
 
-  product
-    .save()
-    .then((product) => res.status(201).json(product))
-    .catch((error) => res.status(400).json(error));
+  try {
+    const newProduct = await product.save();
+    const inventory = new Inventory({
+      productId: newProduct._id,
+      stockQuantity: quantity,
+    });
+    const newInventoryItem = await inventory.save();
+    res.status(200).json({ product: newProduct, invenotry: newInventoryItem });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
 }
 
 export async function getallProducts(req, res) {
@@ -39,11 +47,24 @@ export function getProduct(req, res) {
   );
 }
 
-export function deleteProduct(req, res) {
+export async function deleteProduct(req, res) {
   const productId = req.params.productId;
-  Product.deleteOne({ createdBy: res.locals.user, _id: productId })
-    .then((product) => res.status(200).json(product))
-    .catch((error) => res.status(400).json(error));
+  try {
+    const deletedProduct = await Product.deleteOne({
+      createdBy: res.locals.user,
+      _id: productId,
+    });
+    const deletedProductFromInventory = await Inventory.deleteMany({
+      productId: productId,
+    });
+    res.status(200).json({
+      product: deletedProduct,
+      productInventory: deletedProductFromInventory,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
 }
 
 export async function updateProduct(req, res) {
