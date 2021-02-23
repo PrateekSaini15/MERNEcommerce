@@ -7,6 +7,7 @@ import productReducer from "./productReducers";
 import userProductReducer from "./userProductReducers";
 import cartReducer from "./cartReducers";
 import inventoryReducer from "./inventoryReducer";
+import orderReducer from "./orderReducer";
 export default combineReducers({
   auth: authReducer,
   admin: adminReducer,
@@ -15,5 +16,6 @@ export default combineReducers({
   inventory: inventoryReducer,
   userProduct: userProductReducer,
   cart: cartReducer,
+  order: orderReducer,
   error: errorReducer,
 });
