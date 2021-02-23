@@ -8,6 +8,7 @@ import { Nav } from "react-bootstrap";
 import { logoutUser } from "../../../redux/actions/authActions";
 import Catalog from "../Catalog/Catalog";
 import Cart from "../../User/Cart/Cart";
+import Order from "../../User/Order/Order";
 import { getCart } from "../../../redux/actions/cartActions";
 class Home extends React.Component {
   componentDidMount() {
@@ -35,6 +36,9 @@ class Home extends React.Component {
                   )
                 </Nav.Link>
               </LinkContainer>
+              <LinkContainer to={`${match.url}orders`}>
+                <Nav.Link>Orders</Nav.Link>
+              </LinkContainer>
             </Nav>
             <Button onClick={this.props.logoutUser}>Logout</Button>
           </div>
@@ -42,6 +46,7 @@ class Home extends React.Component {
             <Switch>
               <Route path={`${match.url}products`} component={Catalog} />
               <Route path={`${match.url}cart`} component={Cart} />
+              <Route path={`${match.url}orders`} component={Order} />
             </Switch>
           </div>
         </div>
