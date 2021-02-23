@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_TO_CART } from "./actionTypes";
+import { ADD_PRODUCT_TO_CART, CLEAR_CART } from "./actionTypes";
 import axios from "../axios";
 
 export const addToCart = (item) => (dispatch) => {
@@ -55,4 +55,17 @@ export const removeItem = (item) => (dispatch) => {
       dispatch({ type: ADD_PRODUCT_TO_CART, payload: res.data.cartItems })
     )
     .catch((error) => console.log(error));
+};
+
+export const placeOrder = () => async (dispatch) => {
+  axios.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("token")}`;
+
+  try {
+    const res = await axios.post("/api/user/order/add");
+    dispatch({ type: CLEAR_CART });
+  } catch (error) {
+    console.log(error);
+  }
 };
