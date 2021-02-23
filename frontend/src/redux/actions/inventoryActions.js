@@ -1,7 +1,7 @@
 import { GET_PRODUCT_INVENTORY, ADD_ENTRY_TO_INVENTORY } from "./actionTypes";
 import axios from "../axios";
 
-axios.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
+axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
   "adminToken"
 )}`;
 
