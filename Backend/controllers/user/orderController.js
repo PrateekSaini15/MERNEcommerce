@@ -45,3 +45,18 @@ export async function placeOrder(req, res) {
     res.status(400).json(error);
   }
 }
+
+export async function getOrders(req, res) {
+  const user = res.locals.user;
+  try {
+    const orders = await Order.find({ user });
+    if (orders) {
+      res.status(200).json(orders);
+    } else {
+      res.status(400).json({ message: "No order history" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+}
