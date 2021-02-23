@@ -4,6 +4,7 @@ import {
   getCart,
   clearCart,
   removeItem,
+  placeOrder,
 } from "../../../redux/actions/cartActions";
 class Cart extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Cart extends React.Component {
     this.createMarkup = this.createMarkup.bind(this);
     this.getTotalQuantityAndPrice = this.getTotalQuantityAndPrice.bind(this);
     this.numberFormat = this.numberFormat.bind(this);
+    this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
   }
 
   componentDidMount() {
@@ -68,12 +70,17 @@ class Cart extends React.Component {
     return markup;
   }
 
+  handlePlaceOrder() {
+    this.props.placeOrder();
+    this.props.history.push("/");
+  }
+
   render() {
     const markup = this.createMarkup();
     const totalMarkup = this.getTotalQuantityAndPrice();
     return (
       <>
-        <h4 className="dispaly-4">Cart</h4>
+        <h3 className="dispaly-3 text-center">Cart</h3>
         <table className="table">
           <thead>
             <tr>
@@ -87,6 +94,9 @@ class Cart extends React.Component {
             {totalMarkup}
           </tbody>
         </table>
+        <button className="btn btn-success" onClick={this.handlePlaceOrder}>
+          Place Order
+        </button>
       </>
     );
   }
@@ -94,5 +104,5 @@ class Cart extends React.Component {
 function mapStateToProps(store) {
   return { items: store.cart.items };
 }
-const mapActionToProps = { getCart, clearCart, removeItem };
+const mapActionToProps = { getCart, clearCart, removeItem, placeOrder };
 export default connect(mapStateToProps, mapActionToProps)(Cart);
