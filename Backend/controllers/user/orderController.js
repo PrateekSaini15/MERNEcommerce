@@ -24,10 +24,12 @@ export async function placeOrder(req, res) {
     if (cart) {
       if (cart.cartItems) {
         const items = cart.cartItems;
+        const status = "Placed";
         items.forEach(addEntryToInventory);
         const order = new Order({
           user,
           items,
+          status,
         });
         const newOrder = await order.save();
         await Cart.deleteOne({ user });
