@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const merchantOrder = mongoose.Schema({
+  merchantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   orderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Order",
@@ -24,6 +28,10 @@ const merchantOrder = mongoose.Schema({
   status: {
     type: String,
     required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now(),
   },
 });
 
