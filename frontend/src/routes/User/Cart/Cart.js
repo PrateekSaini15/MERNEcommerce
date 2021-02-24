@@ -29,7 +29,10 @@ class Cart extends React.Component {
 
   getTotalQuantityAndPrice() {
     const items = this.props.items;
-    const totalPrice = items.reduce((total, item) => total + item.price, 0);
+    const totalPrice = items.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
     const totalQuantity = items.reduce(
       (total, item) => total + item.quantity,
       0
