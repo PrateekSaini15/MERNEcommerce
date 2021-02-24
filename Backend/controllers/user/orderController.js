@@ -1,6 +1,46 @@
 import Order from "../../models/order.js";
 import Cart from "../../models/cart.js";
 import Inventory from "../../models/inventory.js";
+import MerchantOrder from "../../models/merchantOrder.js";
+import Product from "../../models/product.js";
+
+async function saveMerchantOrder(merchantOrders, order) {
+  const merchants = Object.keys(merchantOrders);
+  try {
+    for (let i = 0; i < merchants.length; i++) {
+      const newMerchantOrder = new MerchantOrder({
+        merchantId: merchants[i],
+        orderId: order._id,
+        items: merchantOrders[merchants[i]],
+        status: "Pending",
+      });
+      await newMerchantOrder.save();
+    }
+  } catch (error) {
+    console.log(error);
+    res.statu(400).json(error);
+  }
+}
+
+async function createMerchantOrder(order) {
+  let merchants = {};
+  const items = order.items;
+  for (let i = 0; i < items.length; i++) {
+    try {
+      const product = await Product.findOne({ _id: items[i].productId });
+      const merchantId = product.createdBy;
+      if (!merchants[merchantId]) {
+        merchants[merchantId] = [items[i]];
+      } else {
+        merchants[merchantId].push(items[i]);
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(400).json(error);
+    }
+  }
+  saveMerchantOrder(merchants, order);
+}
 
 async function addEntryToInventory(item, order) {
   let { productId, quantity } = item;
@@ -35,6 +75,7 @@ export async function placeOrder(req, res) {
           status,
         });
         const newOrder = await order.save();
+        createMerchantOrder(newOrder);
         await Cart.deleteOne({ user });
         res.status(200).json(newOrder);
       } else {
