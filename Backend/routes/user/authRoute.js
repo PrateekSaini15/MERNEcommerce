@@ -4,7 +4,7 @@ import {
   signupController,
   signinController,
   isLoggedin,
-} from "../../controllers/authController.js";
+} from "../../controllers/user/authController.js";
 
 const router = express.Router();
 

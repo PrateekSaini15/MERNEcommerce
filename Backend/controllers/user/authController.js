@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import validateSingupInput from "../validators/signupValidator.js";
-import validateSinginInput from "../validators/signinValidator.js";
-import User from "../models/user.js";
+import validateSingupInput from "../../validators/signupValidator.js";
+import validateSinginInput from "../../validators/signinValidator.js";
+import User from "../../models/user.js";
 import env from "dotenv";
 
 env.config();
