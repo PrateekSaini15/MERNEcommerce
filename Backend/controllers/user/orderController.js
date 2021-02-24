@@ -2,11 +2,14 @@ import Order from "../../models/order.js";
 import Cart from "../../models/cart.js";
 import Inventory from "../../models/inventory.js";
 
-async function addEntryToInventory(item) {
-  const { productId, quantity } = item;
+async function addEntryToInventory(item, order) {
+  let { productId, quantity } = item;
+  if (order === "Placed") {
+    quantity = -quantity;
+  }
   const entry = new Inventory({
     productId: productId,
-    stockQuantity: -quantity,
+    stockQuantity: quantity,
   });
   try {
     const newEntry = await entry.save();
@@ -25,7 +28,7 @@ export async function placeOrder(req, res) {
       if (cart.cartItems) {
         const items = cart.cartItems;
         const status = "Placed";
-        items.forEach(addEntryToInventory);
+        items.forEach((item) => addEntryToInventory(item, status));
         const order = new Order({
           user,
           items,
@@ -65,13 +68,13 @@ export async function cancelOrder(req, res) {
   const orderId = req.body.orderId;
   try {
     const order = await Order.findOne({ _id: orderId });
-    console.log(order);
     if (order) {
       if (order.status === "Cancelled") {
         res.status(400).json({ message: "order already cancelled" });
       } else {
         order.status = "Cancelled";
         const newOrder = await order.save();
+        order.items.forEach((item) => addEntryToInventory(item, order.status));
         res.status(200).json(newOrder);
       }
     } else {
