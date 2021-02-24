@@ -69,10 +69,10 @@ export async function cancelOrder(req, res) {
   try {
     const order = await Order.findOne({ _id: orderId });
     if (order) {
-      if (order.status === "Cancelled") {
+      if (order.status === "Canceled") {
         res.status(400).json({ message: "order already cancelled" });
       } else {
-        order.status = "Cancelled";
+        order.status = "Canceled";
         const newOrder = await order.save();
         order.items.forEach((item) => addEntryToInventory(item, order.status));
         res.status(200).json(newOrder);

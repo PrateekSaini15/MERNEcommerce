@@ -1,13 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { getOrders } from "../../../redux/actions/orderActions";
+import { getOrders, cancelOrder } from "../../../redux/actions/orderActions";
 class Order extends React.Component {
   constructor(props) {
     super(props);
     this.createTable = this.createTable.bind(this);
     this.createTableBody = this.createTableBody.bind(this);
+    this.createTableFooter = this.createTableFooter.bind(this);
     this.formatDate = this.formatDate.bind(this);
+    this.getTotalPriceAndQuantity = this.getTotalPriceAndQuantity.bind(this);
   }
   componentDidMount() {
     this.props.getOrders();
@@ -29,27 +31,69 @@ class Order extends React.Component {
     );
   }
 
-  createTable(order, index) {
-    const markup = order.items.map(this.createTableBody);
+  getTotalPriceAndQuantity(items) {
+    let totalPrice = items.reduce(
+      (total, item) => item.price * item.quantity + total,
+      0
+    );
+    let totalQuantity = items.reduce((total, item) => item.quantity + total, 0);
+    return { totalPrice, totalQuantity };
+  }
+
+  createTableFooter(order) {
+    const { totalPrice, totalQuantity } = this.getTotalPriceAndQuantity(
+      order.items
+    );
     return (
-      <table className="table" key={order._id}>
-        <caption className="caption-top">{`${this.formatDate(order.date)} ${
-          order.status
-        }`}</caption>
+      <tr>
+        <td>Total</td>
+        <td>{totalPrice}</td>
+        <td>{totalQuantity}</td>
+        <td
+          style={
+            order.status === "Placed" ? { color: "green" } : { color: "red" }
+          }
+        >
+          {order.status}
+        </td>
+        <td>
+          {order.status === "Placed" ? (
+            <button
+              className="btn btn-danger"
+              onClick={() => this.props.cancelOrder(order._id)}
+            >
+              CancelOrder
+            </button>
+          ) : null}
+        </td>
+      </tr>
+    );
+  }
+
+  createTable(order) {
+    const markup = order.items.map(this.createTableBody);
+    const footerMarkup = this.createTableFooter(order);
+    return (
+      <table className="table table-sm" key={order._id}>
+        <caption className="caption-top">{`${this.formatDate(
+          order.date
+        )}`}</caption>
         <thead>
           <tr>
             <th>Item</th>
             <th>Price</th>
             <th>Quantity</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>{markup}</tbody>
+        <tfoot>{footerMarkup}</tfoot>
       </table>
     );
   }
 
   render() {
-    console.log(this.props.orders);
     const markup = this.props.orders.map(this.createTable);
     return (
       <>
@@ -63,11 +107,13 @@ class Order extends React.Component {
 function mapStateToProps(store) {
   return {
     orders: store.order.orders,
+    rerender: store.order.rerender,
   };
 }
 
 const mapActionToProps = {
   getOrders,
+  cancelOrder,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Order);
