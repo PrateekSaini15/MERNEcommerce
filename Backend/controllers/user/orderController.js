@@ -60,3 +60,25 @@ export async function getOrders(req, res) {
     res.status(400).json(error);
   }
 }
+
+export async function cancelOrder(req, res) {
+  const orderId = req.body.orderId;
+  try {
+    const order = await Order.findOne({ _id: orderId });
+    console.log(order);
+    if (order) {
+      if (order.status === "Cancelled") {
+        res.status(400).json({ message: "order already cancelled" });
+      } else {
+        order.status = "Cancelled";
+        const newOrder = await order.save();
+        res.status(200).json(newOrder);
+      }
+    } else {
+      res.status(400).json({ message: "order doesn't exists" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+}
