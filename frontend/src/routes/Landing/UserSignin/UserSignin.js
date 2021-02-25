@@ -36,6 +36,7 @@ class UserSignin extends Component {
     const error = this.props.error.loginError;
     return (
       <Container>
+        <h4 className="display-4 text-center">User Signin</h4>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>

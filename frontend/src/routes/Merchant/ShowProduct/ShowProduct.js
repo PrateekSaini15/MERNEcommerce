@@ -34,7 +34,7 @@ class ShowProduct extends React.Component {
             className="btn"
             onClick={() => {
               this.props.history.push({
-                pathname: "/admin/home/inventory",
+                pathname: "/merchant/home/inventory",
                 state: item,
               });
             }}
@@ -48,7 +48,7 @@ class ShowProduct extends React.Component {
             className="btn"
             onClick={() => {
               this.props.history.push({
-                pathname: "/admin/home/product/update",
+                pathname: "/merchant/home/product/update",
                 state: item,
               });
             }}

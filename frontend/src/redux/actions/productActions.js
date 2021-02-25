@@ -10,7 +10,7 @@ import axios from "../axios";
 export const addProduct = (product) => (dispatch) => {
   axios.defaults.headers.common[
     "Authorization"
-  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+  ] = `Bearer ${localStorage.getItem("merchantToken")}`;
   axios
     .post("/api/product/create", product)
     .then((res) => {
@@ -33,7 +33,7 @@ export const getallProducts = () => (dispatch) => {
 export const getProductsForAdmin = () => (dispatch) => {
   axios.defaults.headers.common[
     "Authorization"
-  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+  ] = `Bearer ${localStorage.getItem("merchantToken")}`;
 
   axios
     .get("/api/product/get")
@@ -46,7 +46,7 @@ export const getProductsForAdmin = () => (dispatch) => {
 export const deleteProduct = (productId) => (dispatch) => {
   axios.defaults.headers.common[
     "Authorization"
-  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+  ] = `Bearer ${localStorage.getItem("merchantToken")}`;
 
   axios
     .delete(`/api/product/delete/${productId}`)
@@ -61,7 +61,7 @@ export const deleteProduct = (productId) => (dispatch) => {
 export const updateProduct = (product) => (dispatch) => {
   axios.defaults.headers.common[
     "Authorization"
-  ] = `Bearer ${localStorage.getItem("adminToken")}`;
+  ] = `Bearer ${localStorage.getItem("merchantToken")}`;
 
   axios
     .patch("api/product/update", product)
