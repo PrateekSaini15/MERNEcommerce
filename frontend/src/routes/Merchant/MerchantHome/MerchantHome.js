@@ -4,9 +4,7 @@ import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 
 import { logoutMerchant } from "../../../redux/actions/merchantAuthActions";
-import ShowCategories from "../ShowCategories/ShowCategories";
 import Sidebar from "../../../components/Sidebar/Sidebar";
-import AddCategory from "../AddCategory/AddCategory";
 import AddProduct from "../AddProduct/AddProduct";
 import ShowProduct from "../ShowProduct/ShowProduct";
 import UpdateProduct from "../UpdateProduct/UpdateProduct";
@@ -22,11 +20,6 @@ class Home extends React.Component {
         </div>
         <div className="col-10">
           <Switch>
-            <Route
-              path={`${match.url}/categories`}
-              component={ShowCategories}
-            />
-            <Route path={`${match.url}/category/add`} component={AddCategory} />
             <Route path={`${match.url}/product/add`} component={AddProduct} />
             <Route
               path={`${match.url}/product/update`}
