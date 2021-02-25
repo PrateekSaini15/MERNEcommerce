@@ -9,12 +9,6 @@ class Sidebar extends Component {
     return (
       <>
         <Nav className="flex-column">
-          <LinkContainer to={`${match.url}/categories`}>
-            <Nav.Link>Show Categories</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to={`${match.url}/category/add`}>
-            <Nav.Link>Add Categories</Nav.Link>
-          </LinkContainer>
           <LinkContainer to={`${match.url}/product/add`}>
             <Nav.Link>Add Product</Nav.Link>
           </LinkContainer>

@@ -35,7 +35,7 @@ class UpdateProduct extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.updateProduct(this.state);
-    this.props.history.push("/admin/home/products");
+    this.props.history.push("/merchant/home/products");
   }
 
   setValues() {
@@ -88,7 +88,7 @@ class UpdateProduct extends React.Component {
           />
           <button
             className="btn btn-danger"
-            onClick={() => this.props.history.push("/admin/home/products")}
+            onClick={() => this.props.history.push("/merchant/home/products")}
           >
             Cancel
           </button>

@@ -5,14 +5,15 @@ import cors from "cors";
 import { upload } from "./Middlewares/multer.js";
 //self made modules
 import userRoutes from "./routes/user/authRoute.js";
-import adminRoutes from "./routes/admin/adminAuthRoute.js";
+import merchantAuthRoutes from "./routes/merchant/merchantAuthRoute.js";
+import adminAuthRoutes from "./routes/admin/adminAuthRoute.js";
 import categoryRoutes from "./routes/admin/categoryRoute.js";
 import productRoutes from "./routes/admin/productRoute.js";
 import userProductRoutes from "./routes/user/userProductRoutes.js";
 import merchantRoutes from "./routes/merchant/merchantRoutes.js";
 import orderRoute from "./routes/user/orderRoute.js";
 import cartRoutes from "./routes/user/cartRoute.js";
-import { isAdmin } from "./Middlewares/isAdminMiddleware.js";
+import { isMerchant } from "./Middlewares/isMerchantMiddleware.js";
 import { isUser } from "./Middlewares/isUserMiddleware.js";
 //constants
 env.config();
@@ -32,14 +33,20 @@ db.once("open", function () {
   console.log(`Connceted to database ${process.env.MONGODB_DATABASE}`);
 });
 
-app.use("/api", userRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/category", categoryRoutes);
-app.use("/api/merchant", isAdmin, merchantRoutes);
-app.use("/api/product", isAdmin, upload.array("productPicture"), productRoutes);
 app.use("/api/user/product", userProductRoutes);
 app.use("/api/user/order", isUser, orderRoute);
+app.use("/api/merchant", merchantAuthRoutes);
+app.use("/api/admin", adminAuthRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/merchant", isMerchant, merchantRoutes);
+app.use(
+  "/api/product",
+  isMerchant,
+  upload.array("productPicture"),
+  productRoutes
+);
 app.use("/api/cart", isUser, cartRoutes);
+app.use("/api", userRoutes);
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on ${process.env.PORT}`)
 );

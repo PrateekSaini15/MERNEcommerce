@@ -1,93 +1,84 @@
-import React, { Component } from "react";
-import { Form, Alert, Button, Container } from "react-bootstrap";
+import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import FormInput from "../../../components/FormInput/FormInput";
 import {
   loginAdmin,
-  isLoggedin,
-} from "../../../redux/actions/authAdminActions";
-
-class AdminSignin extends Component {
+  isLoggedIn,
+} from "../../../redux/actions/adminAuthActions";
+class AdminSignin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.isLoggedIn();
   }
 
   handleChange(event) {
-    this.setState({ ...this.state, [event.target.name]: event.target.value });
+    this.setState((prevState) => {
+      return { ...prevState, [event.target.id]: event.target.value };
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.loginAdmin(this.state);
-  }
-
-  componentDidMount() {
-    this.props.isLoggedin();
+    const loginDetails = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    this.props.loginAdmin(loginDetails);
   }
 
   render() {
-    if (this.props.admin.isAuthenticated) {
+    if (this.props.isAuthenticated) {
       return <Redirect to="/admin/home" />;
     }
-    const error = this.props.error.loginError;
     return (
       <>
-        <Container>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                placeholder="Enter email"
-                required
-                onChange={this.handleChange}
-              />
-              <Alert variant="danger" show={error.email ? true : false}>
-                {error.email}
-              </Alert>
-              <Alert variant="danger" show={error.user ? true : false}>
-                {error.user}
-              </Alert>
-            </Form.Group>
-
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                onChange={this.handleChange}
-              />
-              <Alert variant="danger" show={error.password ? true : false}>
-                {error.password}
-              </Alert>
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Container>
+        <div className="container">
+          <h4 className="display-4 text-center">Admin Signin</h4>
+          <form onSubmit={this.handleSubmit}>
+            <FormInput
+              id="email"
+              label="Email"
+              type="email"
+              value={this.state.email}
+              required={true}
+              onChange={this.handleChange}
+            />
+            <FormInput
+              id="password"
+              label="Password"
+              type="password"
+              value={this.state.password}
+              required={true}
+              onChange={this.handleChange}
+            />
+            <button type="submit" className="btn btn-success">
+              Login
+            </button>
+          </form>
+        </div>
       </>
     );
   }
 }
+function mapStateToProps(store) {
+  return {
+    isAuthenticated: store.adminAuth.isAuthenticated,
+  };
+}
+const mapActionToProps = {
+  loginAdmin,
+  isLoggedIn,
+};
 
-const mapStateToProps = (store) => ({
-  admin: store.admin,
-  error: store.error,
-});
-
-export default connect(mapStateToProps, { loginAdmin, isLoggedin })(
-  AdminSignin
-);
+export default connect(mapStateToProps, mapActionToProps)(AdminSignin);

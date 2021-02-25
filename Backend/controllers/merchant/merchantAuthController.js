@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import validateSingupInput from "../validators/signupValidator.js";
-import validateSinginInput from "../validators/signinValidator.js";
-import User from "../models/user.js";
+import validateSingupInput from "../../validators/signupValidator.js";
+import validateSinginInput from "../../validators/signinValidator.js";
+import User from "../../models/user.js";
 import env from "dotenv";
 
 env.config();
@@ -26,6 +26,7 @@ export const signupController = (req, res) => {
         hashPassword: req.body.password1,
         contactNumber: req.body.contactNumber,
         profilePicture: req.body.profilePicture,
+        role: "merchant",
       });
 
       bcrypt.genSalt(10, (error, salt) => {
@@ -58,7 +59,7 @@ export const signinController = (req, res) => {
       return res.status(400).json({ email: "Email does not exist." });
     }
     bcrypt.compare(password, user.hashPassword).then((isMatch) => {
-      if (isMatch) {
+      if (isMatch && user.role === "merchant") {
         const payload = {
           _id: user._id,
           role: user.role,
@@ -72,6 +73,9 @@ export const signinController = (req, res) => {
           }
         );
       } else {
+        if (user.role !== "merchant") {
+          res.status(400).json({ user: "You are not a merchant." });
+        }
         res.status(400).json({ password: "password is incorrect" });
       }
     });

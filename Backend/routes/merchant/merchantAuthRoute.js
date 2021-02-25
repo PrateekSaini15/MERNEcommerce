@@ -1,10 +1,10 @@
-import express, { json } from "express";
+import express from "express";
 
 import {
   signupController,
   signinController,
   isLoggedin,
-} from "../../controllers/user/authController.js";
+} from "../../controllers/merchant/merchantAuthController.js";
 
 const router = express.Router();
 

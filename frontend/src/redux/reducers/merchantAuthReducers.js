@@ -1,4 +1,7 @@
-import { LOGIN_ADMIN_USER, LOGOUT_ADMIN_USER } from "../actions/actionTypes";
+import {
+  LOGIN_MERCHANT_USER,
+  LOGOUT_MERCHANT_USER,
+} from "../actions/actionTypes";
 
 const initialState = {
   isAuthenticated: false,
@@ -10,14 +13,14 @@ const initialState = {
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
-    case LOGIN_ADMIN_USER:
+    case LOGIN_MERCHANT_USER:
       return {
         ...state,
         isAuthenticated: true,
         token: action.payload,
         isAuthenticating: false,
       };
-    case LOGOUT_ADMIN_USER:
+    case LOGOUT_MERCHANT_USER:
       return {
         ...state,
         isAuthenticated: false,

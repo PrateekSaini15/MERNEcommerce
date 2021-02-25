@@ -1,22 +1,64 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import validateSingupInput from "../../validators/signupValidator.js";
-import validateSinginInput from "../../validators/signinValidator.js";
-import User from "../../models/user.js";
 import env from "dotenv";
 
+import User from "../../models/user.js";
+import validateSigninInput from "../../validators/signinValidator.js";
+import validateSignupInput from "../../validators/signupValidator.js";
 env.config();
 
-export const signupController = (req, res) => {
-  const { errors, isValid } = validateSingupInput(req.body);
+export async function adminSignin(req, res) {
+  const { email, password } = req.body;
+  const { error, isValid } = validateSigninInput({ email, password });
 
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json(error);
   }
-
-  User.findOne({ email: req.body.email }).then((user) => {
+  try {
+    const user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ email: "Email id already exists" });
+      if (user.role === "admin") {
+        const passwordMatched = await bcrypt.compare(
+          password,
+          user.hashPassword
+        );
+        if (passwordMatched) {
+          const payload = {
+            _id: user._id,
+            role: user.role,
+          };
+          jwt.sign(
+            payload,
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: 3600 },
+            (error, token) => {
+              res.json({ token: "Bearer " + token });
+            }
+          );
+        } else {
+          res.status(400).json({ message: "Password is incorrect" });
+        }
+      } else {
+        res.status(400).json({ message: "You are not a admin user" });
+      }
+    } else {
+      res.status(400).json({ message: "Email doesn't exist" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+}
+
+export async function adminSignup(req, res) {
+  const { error, isValid } = validateSignupInput(req.body);
+  if (!isValid) {
+    res.status(400).json(error);
+  }
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      res.status(400).json({ message: "Email already exists" });
     } else {
       const newUser = new User({
         firstName: req.body.firstName,
@@ -28,63 +70,14 @@ export const signupController = (req, res) => {
         profilePicture: req.body.profilePicture,
         role: "admin",
       });
-
-      bcrypt.genSalt(10, (error, salt) => {
-        if (error) return res.status(500).json({ message: error.message });
-        bcrypt.hash(newUser.hashPassword, salt, (error, hash) => {
-          if (error) return res.status(500).json({ message: error.message });
-          newUser.hashPassword = hash;
-          newUser
-            .save()
-            .then((user) => res.json(user))
-            .catch((error) => res.status(500).json({ message: error.message }));
-        });
-      });
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(newUser.hashPassword, salt);
+      newUser.hashPassword = hashPassword;
+      const savedUser = await newUser.save();
+      res.status(200).json(savedUser);
     }
-  });
-};
-
-export const signinController = (req, res) => {
-  const { errors, isValid } = validateSinginInput(req.body);
-
-  if (!isValid) {
-    return res.status(400).json(errors);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
   }
-
-  const email = req.body.email;
-  const password = req.body.password;
-
-  User.findOne({ email }).then((user) => {
-    if (!user) {
-      return res.status(400).json({ email: "Email does not exist." });
-    }
-    bcrypt.compare(password, user.hashPassword).then((isMatch) => {
-      if (isMatch && user.role === "admin") {
-        const payload = {
-          _id: user._id,
-          role: user.role,
-        };
-        jwt.sign(
-          payload,
-          process.env.JWT_SECRET_KEY,
-          { expiresIn: 3600 },
-          (error, token) => {
-            res.json({ token: "Bearer " + token });
-          }
-        );
-      } else {
-        if (user.role !== "admin") {
-          res.status(400).json({ user: "You are not a admin user." });
-        }
-        res.status(400).json({ password: "password is incorrect" });
-      }
-    });
-  });
-};
-
-export const isLoggedin = (req, res, next) => {
-  const token = req.headers.authorization.split(" ");
-  const userId = jwt.verify(token[1], process.env.JWT_SECRET_KEY);
-
-  next();
-};
+}

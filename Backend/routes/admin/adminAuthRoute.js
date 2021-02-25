@@ -1,14 +1,13 @@
-import express, { json } from "express";
+import express from "express";
 
 import {
-  signupController,
-  signinController,
-  isLoggedin,
+  adminSignin,
+  adminSignup,
 } from "../../controllers/admin/adminAuthController.js";
 
-const router = express.Router();
+const route = express.Router();
 
-router.post("/signup", signupController);
-router.post("/signin", signinController);
+route.post("/signup", adminSignup);
+route.post("/signin", adminSignin);
 
-export default router;
+export default route;

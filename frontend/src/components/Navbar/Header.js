@@ -13,14 +13,17 @@ class Header extends React.Component {
               <LinkContainer to="/">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/user/signin">
-                <Nav.Link>Signin</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/user/signup">
-                <Nav.Link>Signup</Nav.Link>
-              </LinkContainer>
               <LinkContainer to="/admin/signin">
                 <Nav.Link>Admin Signin</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/user/signin">
+                <Nav.Link>User Signin</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/user/signup">
+                <Nav.Link>User Signup</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/merchant/signin">
+                <Nav.Link>Merchant Signin</Nav.Link>
               </LinkContainer>
               <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

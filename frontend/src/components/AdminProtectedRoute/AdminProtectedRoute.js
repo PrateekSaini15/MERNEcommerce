@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { connect } from "react-redux";
-class AdminProtectedRoute extends Component {
+
+class AdminProtectedRoute extends React.Component {
   render() {
-    const component = this.props.component;
-    const path = this.props.path;
-    return this.props.admin.isAuthenticated ? (
+    const { component, path } = this.props;
+    return this.props.isAuthenticated ? (
       <Route path={path} component={component} />
     ) : (
       <Redirect to="/admin/signin" />
@@ -15,7 +15,7 @@ class AdminProtectedRoute extends Component {
 
 function mapStateToProps(store) {
   return {
-    admin: store.admin,
+    isAuthenticated: store.adminAuth.isAuthenticated,
   };
 }
 
