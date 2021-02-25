@@ -13,11 +13,14 @@ class Header extends React.Component {
               <LinkContainer to="/">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/admin/signin">
+                <Nav.Link>Admin Signin</Nav.Link>
+              </LinkContainer>
               <LinkContainer to="/user/signin">
-                <Nav.Link>Signin</Nav.Link>
+                <Nav.Link>User Signin</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/user/signup">
-                <Nav.Link>Signup</Nav.Link>
+                <Nav.Link>User Signup</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/merchant/signin">
                 <Nav.Link>Merchant Signin</Nav.Link>
