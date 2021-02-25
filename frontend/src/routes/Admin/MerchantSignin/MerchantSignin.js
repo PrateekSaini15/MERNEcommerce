@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import {
-  loginAdmin,
+  loginMerchant,
   isLoggedin,
-} from "../../../redux/actions/authAdminActions";
+} from "../../../redux/actions/merchantAuthActions";
 
-class AdminSignin extends Component {
+class MerchantSignin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +26,7 @@ class AdminSignin extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.loginAdmin(this.state);
+    this.props.loginMerchant(this.state);
   }
 
   componentDidMount() {
@@ -34,8 +34,8 @@ class AdminSignin extends Component {
   }
 
   render() {
-    if (this.props.admin.isAuthenticated) {
-      return <Redirect to="/admin/home" />;
+    if (this.props.merchant.isAuthenticated) {
+      return <Redirect to="/merchant/home" />;
     }
     const error = this.props.error.loginError;
     return (
@@ -84,10 +84,10 @@ class AdminSignin extends Component {
 }
 
 const mapStateToProps = (store) => ({
-  admin: store.admin,
+  merchant: store.merchantAuth,
   error: store.error,
 });
 
-export default connect(mapStateToProps, { loginAdmin, isLoggedin })(
-  AdminSignin
+export default connect(mapStateToProps, { loginMerchant, isLoggedin })(
+  MerchantSignin
 );

@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducers";
 import errorReducer from "./errorReducers";
 import categoryReducer from "./categoryReducers";
-import adminReducer from "./adminAuthReducers";
+import merchantAuthReducer from "./merchantAuthReducers";
 import productReducer from "./productReducers";
 import userProductReducer from "./userProductReducers";
 import cartReducer from "./cartReducers";
@@ -10,7 +10,7 @@ import inventoryReducer from "./inventoryReducer";
 import orderReducer from "./orderReducer";
 export default combineReducers({
   auth: authReducer,
-  admin: adminReducer,
+  merchantAuth: merchantAuthReducer,
   category: categoryReducer,
   product: productReducer,
   inventory: inventoryReducer,

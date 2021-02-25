@@ -1,7 +1,7 @@
 import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
-  GET_PRODUCTS_FOR_ADMIN,
+  GET_PRODUCTS_FOR_MERCHANT,
   UPDATE_PRODUCT,
 } from "../actions/actionTypes";
 
@@ -15,7 +15,7 @@ export default function porductReducer(state = initialState, action) {
       let products = state.products;
       products.push(action.payload);
       return { ...state, proudcts: products };
-    case GET_PRODUCTS_FOR_ADMIN:
+    case GET_PRODUCTS_FOR_MERCHANT:
       return { ...state, products: action.payload };
     case DELETE_PRODUCT:
       return {

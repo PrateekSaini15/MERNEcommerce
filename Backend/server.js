@@ -32,8 +32,9 @@ db.once("open", function () {
   console.log(`Connceted to database ${process.env.MONGODB_DATABASE}`);
 });
 
-app.use("/api", userRoutes);
-app.use("/api/admin", merchantAuthRoutes);
+app.use("/api/user/product", userProductRoutes);
+app.use("/api/user/order", isUser, orderRoute);
+app.use("/api/merchant", merchantAuthRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/merchant", isMerchant, merchantRoutes);
 app.use(
@@ -42,9 +43,8 @@ app.use(
   upload.array("productPicture"),
   productRoutes
 );
-app.use("/api/user/product", userProductRoutes);
-app.use("/api/user/order", isUser, orderRoute);
 app.use("/api/cart", isUser, cartRoutes);
+app.use("/api", userRoutes);
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on ${process.env.PORT}`)
 );

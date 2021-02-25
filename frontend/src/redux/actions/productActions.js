@@ -1,7 +1,7 @@
 import {
   ADD_PRODUCT,
   DELETE_PRODUCT,
-  GET_PRODUCTS_FOR_ADMIN,
+  GET_PRODUCTS_FOR_MERCHANT,
   GET_PRODUCTS_FOR_USER,
   UPDATE_PRODUCT,
 } from "./actionTypes";
@@ -38,7 +38,7 @@ export const getProductsForAdmin = () => (dispatch) => {
   axios
     .get("/api/product/get")
     .then((res) =>
-      dispatch({ type: GET_PRODUCTS_FOR_ADMIN, payload: res.data })
+      dispatch({ type: GET_PRODUCTS_FOR_MERCHANT, payload: res.data })
     )
     .catch((error) => console.log(error));
 };

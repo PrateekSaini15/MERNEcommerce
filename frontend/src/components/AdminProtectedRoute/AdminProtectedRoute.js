@@ -5,17 +5,17 @@ class AdminProtectedRoute extends Component {
   render() {
     const component = this.props.component;
     const path = this.props.path;
-    return this.props.admin.isAuthenticated ? (
+    return this.props.merchant.isAuthenticated ? (
       <Route path={path} component={component} />
     ) : (
-      <Redirect to="/admin/signin" />
+      <Redirect to="/merchant/signin" />
     );
   }
 }
 
 function mapStateToProps(store) {
   return {
-    admin: store.admin,
+    merchant: store.merchantAuth,
   };
 }
 

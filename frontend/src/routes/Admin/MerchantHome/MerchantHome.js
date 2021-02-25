@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 
-import { logoutAdmin } from "../../../redux/actions/authAdminActions";
+import { logoutMerchant } from "../../../redux/actions/merchantAuthActions";
 import ShowCategories from "../ShowCategories/ShowCategories";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import AddCategory from "../AddCategory/AddCategory";
@@ -18,7 +18,7 @@ class Home extends React.Component {
       <div className="row">
         <div className="col-2" style={{ backgroundColor: "black" }}>
           <Sidebar />
-          <Button onClick={this.props.logoutAdmin}>Logout</Button>
+          <Button onClick={this.props.logoutMerchant}>Logout</Button>
         </div>
         <div className="col-10">
           <Switch>
@@ -41,4 +41,4 @@ class Home extends React.Component {
   }
 }
 
-export default connect(null, { logoutAdmin })(Home);
+export default connect(null, { logoutMerchant })(Home);
