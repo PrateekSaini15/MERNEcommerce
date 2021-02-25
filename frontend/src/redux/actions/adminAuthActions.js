@@ -1,4 +1,4 @@
-import { LOGIN_ADMIN } from "../actions/actionTypes";
+import { LOGIN_ADMIN, LOGOUT_ADMIN } from "../actions/actionTypes";
 import { getAxiosInstance } from "../axios";
 const axios = getAxiosInstance();
 export const loginAdmin = (loginDetails) => async (dispatch) => {
@@ -9,5 +9,17 @@ export const loginAdmin = (loginDetails) => async (dispatch) => {
     dispatch({ type: LOGIN_ADMIN, payload: token });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const logoutAdmin = () => (dispatch) => {
+  localStorage.removeItem("adminToken");
+  dispatch({ type: LOGOUT_ADMIN });
+};
+
+export const isLoggedIn = () => (dispatch) => {
+  const token = localStorage.getItem("adminToken");
+  if (token) {
+    dispatch({ type: LOGIN_ADMIN, payload: token });
   }
 };

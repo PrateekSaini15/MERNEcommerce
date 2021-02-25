@@ -1,8 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import FormInput from "../../../components/FormInput/FormInput";
-import { loginAdmin } from "../../../redux/actions/adminAuthActions";
+import {
+  loginAdmin,
+  isLoggedIn,
+} from "../../../redux/actions/adminAuthActions";
 class AdminSignin extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +16,10 @@ class AdminSignin extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.isLoggedIn();
   }
 
   handleChange(event) {
@@ -30,6 +38,9 @@ class AdminSignin extends React.Component {
   }
 
   render() {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/admin/home" />;
+    }
     return (
       <>
         <div className="container">
@@ -60,9 +71,14 @@ class AdminSignin extends React.Component {
     );
   }
 }
-
+function mapStateToProps(store) {
+  return {
+    isAuthenticated: store.adminAuth.isAuthenticated,
+  };
+}
 const mapActionToProps = {
   loginAdmin,
+  isLoggedIn,
 };
 
-export default connect(null, mapActionToProps)(AdminSignin);
+export default connect(mapStateToProps, mapActionToProps)(AdminSignin);

@@ -2,15 +2,17 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import Header from "./components/Navbar/Header";
-import Home from "./routes/Landing/Home/Home";
+import AdminSignin from "./routes/Admin/AdminSignin/AdminSignin";
+import MerchantSignin from "./routes/Merchant/MerchantSignin/MerchantSignin";
 import UserSignin from "./routes/Landing/UserSignin/UserSignin";
 import UserSignup from "./routes/Landing/UserSignup/UserSignup";
-import MerchantSignin from "./routes/Merchant/MerchantSignin/MerchantSignin";
-import AdminSignin from "./routes/Admin/AdminSignin/AdminSignin";
+import AdminHome from "./routes/Admin/AdminHome/AdminHome";
+import Home from "./routes/Landing/Home/Home";
 import MerchantHome from "./routes/Merchant/MerchantHome/MerchantHome";
+import Header from "./components/Navbar/Header";
 import UserProtectedRoute from "./components/UserProtectedRoute/UserProtectedRoute";
 import MerchantProtectedRoute from "./components/MerchantProtectedRoute/MerchantProtectedRoute";
+import AdminProtectedRoute from "./components/AdminProtectedRoute/AdminProtectedRoute";
 import store from "./redux/store";
 
 class App extends React.Component {
@@ -29,6 +31,7 @@ class App extends React.Component {
                 path="/merchant/home"
                 component={MerchantHome}
               />
+              <AdminProtectedRoute path="/admin/home" component={AdminHome} />
               <UserProtectedRoute path="/" component={Home} />
             </Switch>
           </BrowserRouter>
