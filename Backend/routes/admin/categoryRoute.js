@@ -1,6 +1,6 @@
 import express from "express";
 
-import { isAdmin } from "../../Middlewares/isAdminMiddleware.js";
+import { isMerchant } from "../../Middlewares/isMerchantMiddleware.js";
 import {
   createCategoryController,
   getCategoryController,
@@ -8,7 +8,7 @@ import {
 
 const route = express.Router();
 
-route.post("/create", isAdmin, createCategoryController);
+route.post("/create", isMerchant, createCategoryController);
 route.get("/get", getCategoryController);
 
 export default route;

@@ -26,7 +26,7 @@ export const signupController = (req, res) => {
         hashPassword: req.body.password1,
         contactNumber: req.body.contactNumber,
         profilePicture: req.body.profilePicture,
-        role: "admin",
+        role: "merchant",
       });
 
       bcrypt.genSalt(10, (error, salt) => {
@@ -59,7 +59,7 @@ export const signinController = (req, res) => {
       return res.status(400).json({ email: "Email does not exist." });
     }
     bcrypt.compare(password, user.hashPassword).then((isMatch) => {
-      if (isMatch && user.role === "admin") {
+      if (isMatch && user.role === "merchant") {
         const payload = {
           _id: user._id,
           role: user.role,
@@ -73,8 +73,8 @@ export const signinController = (req, res) => {
           }
         );
       } else {
-        if (user.role !== "admin") {
-          res.status(400).json({ user: "You are not a admin user." });
+        if (user.role !== "merchant") {
+          res.status(400).json({ user: "You are not a merchant." });
         }
         res.status(400).json({ password: "password is incorrect" });
       }
