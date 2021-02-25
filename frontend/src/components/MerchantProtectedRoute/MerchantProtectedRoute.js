@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { connect } from "react-redux";
-class AdminProtectedRoute extends Component {
+class MerchantProtectedRoute extends Component {
   render() {
     const component = this.props.component;
     const path = this.props.path;
@@ -19,4 +19,4 @@ function mapStateToProps(store) {
   };
 }
 
-export default connect(mapStateToProps, null)(AdminProtectedRoute);
+export default connect(mapStateToProps, null)(MerchantProtectedRoute);

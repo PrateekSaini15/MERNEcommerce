@@ -6,10 +6,10 @@ import Header from "./components/Navbar/Header";
 import Home from "./routes/Landing/Home/Home";
 import UserSignin from "./routes/Landing/UserSignin/UserSignin";
 import UserSignup from "./routes/Landing/UserSignup/UserSignup";
-import MerchantSignin from "./routes/Admin/MerchantSignin/MerchantSignin";
-import MerchantHome from "./routes/Admin/MerchantHome/MerchantHome";
+import MerchantSignin from "./routes/Merchant/MerchantSignin/MerchantSignin";
+import MerchantHome from "./routes/Merchant/MerchantHome/MerchantHome";
 import UserProtectedRoute from "./components/UserProtectedRoute/UserProtectedRoute";
-import MerchantProtectedRoute from "./components/AdminProtectedRoute/AdminProtectedRoute";
+import MerchantProtectedRoute from "./components/MerchantProtectedRoute/MerchantProtectedRoute";
 import store from "./redux/store";
 
 class App extends React.Component {
