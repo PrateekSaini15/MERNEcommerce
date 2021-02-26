@@ -42,9 +42,6 @@ export default function validateSingupInput(data) {
   if (validator.isEmpty(data.contactNumber)) {
     errors.contactNumber = "Contact number is required";
   }
-  if (validator.isEmpty(data.profilePicture)) {
-    errors.profilePicture = "Profile picture is required";
-  }
 
   return {
     errors: errors,
