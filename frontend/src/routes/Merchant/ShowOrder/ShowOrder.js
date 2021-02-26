@@ -36,7 +36,7 @@ class ShowOrder extends React.Component {
         return "yellowgreen";
       case "Delivered":
         return "green";
-      case "Cancelled":
+      case "Canceled":
         return "red";
       default:
         return "";
