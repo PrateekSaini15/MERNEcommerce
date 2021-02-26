@@ -6,17 +6,17 @@ const axiosInstance = axios.create({
 
 export function getAxiosInstance(user = "") {
   if (user === "user") {
-    axios.defaults.headers.common[
+    axiosInstance.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("token")}`;
   }
   if (user === "admin") {
-    axios.defaults.headers.common[
+    axiosInstance.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("adminToken")}`;
   }
   if (user === "merchant") {
-    axios.defaults.headers.common[
+    axiosInstance.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${localStorage.getItem("merchantToken")}`;
   }

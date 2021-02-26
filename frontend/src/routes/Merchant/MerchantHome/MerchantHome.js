@@ -9,6 +9,8 @@ import AddProduct from "../AddProduct/AddProduct";
 import ShowProduct from "../ShowProduct/ShowProduct";
 import UpdateProduct from "../UpdateProduct/UpdateProduct";
 import ShowInventory from "../ShowInventory/ShowInventory";
+import ShowOrder from "../ShowOrder/ShowOrder";
+
 class Home extends React.Component {
   render() {
     const { match } = this.props;
@@ -27,6 +29,7 @@ class Home extends React.Component {
             />
             <Route path={`${match.url}/inventory`} component={ShowInventory} />
             <Route path={`${match.url}/products`} component={ShowProduct} />
+            <Route path={`${match.url}/orders`} component={ShowOrder} />
           </Switch>
         </div>
       </div>
