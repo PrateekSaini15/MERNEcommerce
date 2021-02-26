@@ -3,6 +3,7 @@ import authReducer from "./authReducers";
 import errorReducer from "./errorReducers";
 import categoryReducer from "./categoryReducers";
 import merchantAuthReducer from "./merchantAuthReducers";
+import merchantOrdersReducer from "./merchantOrderReducer";
 import adminAuthReducer from "./adminAuthReducer";
 import productReducer from "./productReducers";
 import userProductReducer from "./userProductReducers";
@@ -12,6 +13,7 @@ import orderReducer from "./orderReducer";
 export default combineReducers({
   auth: authReducer,
   merchantAuth: merchantAuthReducer,
+  merchantOrder: merchantOrdersReducer,
   adminAuth: adminAuthReducer,
   category: categoryReducer,
   product: productReducer,
