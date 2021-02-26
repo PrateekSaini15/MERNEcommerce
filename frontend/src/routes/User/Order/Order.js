@@ -9,10 +9,18 @@ class Order extends React.Component {
     this.createTableBody = this.createTableBody.bind(this);
     this.createTableFooter = this.createTableFooter.bind(this);
     this.formatDate = this.formatDate.bind(this);
+    this.numberFormat = this.numberFormat.bind(this);
     this.getTotalPriceAndQuantity = this.getTotalPriceAndQuantity.bind(this);
   }
   componentDidMount() {
     this.props.getOrders();
+  }
+
+  numberFormat(value) {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+    }).format(value);
   }
 
   formatDate(date) {
@@ -25,7 +33,7 @@ class Order extends React.Component {
     return (
       <tr key={item._id}>
         <td>{item.productName}</td>
-        <td>{item.price}</td>
+        <td>{this.numberFormat(item.price)}</td>
         <td>{item.quantity}</td>
       </tr>
     );
@@ -45,9 +53,9 @@ class Order extends React.Component {
       order.items
     );
     return (
-      <tr>
+      <tr style={{ fontWeight: "bold" }}>
         <td>Total</td>
-        <td>{totalPrice}</td>
+        <td>{this.numberFormat(totalPrice)}</td>
         <td>{totalQuantity}</td>
         <td
           style={
