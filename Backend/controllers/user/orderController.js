@@ -59,6 +59,16 @@ async function addEntryToInventory(item, order) {
   }
 }
 
+async function changeStatusOfMerchantOrder(order) {
+  order.status = "Canceled";
+  try {
+    await order.save();
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+}
+
 export async function placeOrder(req, res) {
   const user = res.locals.user;
 
@@ -116,6 +126,8 @@ export async function cancelOrder(req, res) {
         order.status = "Canceled";
         const newOrder = await order.save();
         order.items.forEach((item) => addEntryToInventory(item, order.status));
+        let merchantOrders = await MerchantOrder.find({ orderId: order._id });
+        merchantOrders.forEach(changeStatusOfMerchantOrder);
         res.status(200).json(newOrder);
       }
     } else {
