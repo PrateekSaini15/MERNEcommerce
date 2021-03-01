@@ -55,10 +55,16 @@ class Catalog extends React.Component {
   }
 
   createCard(product) {
+    let baseUrl;
+    if (product.productPictures.length) {
+      baseUrl = `http://localhost:5000/uploads/${product.productPictures[0].img}`;
+    } else {
+      baseUrl = "logo192.png";
+    }
     return (
       <div className="col-sm-6" key={product._id}>
         <div className="card" style={{ width: "18rem" }}>
-          <img src="logo192.png" className="card-img-top" alt="..." />
+          <img src={baseUrl} className="card-img-top" alt={product.name} />
           <div className="card-body">
             <h5 className="card-title">{product.name}</h5>
             <h6 className="card-subtitle mb-2 text-muted">

@@ -2,7 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import env from "dotenv";
 import cors from "cors";
+import path from "path";
 import { upload } from "./Middlewares/multer.js";
+import { fileURLToPath } from "url";
+
 //self made modules
 import userRoutes from "./routes/user/authRoute.js";
 import merchantAuthRoutes from "./routes/merchant/merchantAuthRoute.js";
@@ -18,6 +21,8 @@ import { isUser } from "./Middlewares/isUserMiddleware.js";
 //constants
 env.config();
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(cors());
@@ -32,6 +37,8 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   console.log(`Connceted to database ${process.env.MONGODB_DATABASE}`);
 });
+
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use("/api/user/product", userProductRoutes);
 app.use("/api/user/order", isUser, orderRoute);
