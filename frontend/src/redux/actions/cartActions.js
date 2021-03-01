@@ -63,7 +63,7 @@ export const placeOrder = () => async (dispatch) => {
   ] = `Bearer ${localStorage.getItem("token")}`;
 
   try {
-    const res = await axios.post("/api/user/order/add");
+    await axios.post("/api/user/order/add");
     dispatch({ type: CLEAR_CART });
   } catch (error) {
     console.log(error);
