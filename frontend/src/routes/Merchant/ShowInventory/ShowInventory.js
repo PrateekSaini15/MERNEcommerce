@@ -5,12 +5,18 @@ import {
   addEntryToInventory,
 } from "../../../redux/actions/inventoryActions";
 import NewInvetoryEntry from "../../../components/NewInventoryEntry/NewInventoryEntry";
+import Pagination from "../../../components/PaginationComponent/PaginationComponent";
+
 class ShowInventory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       getNewEntry: false,
       sortEntriesByDateType: "Default",
+      currentPage: 1,
+      pageSize: 5,
+      startIndex: 0,
+      endIndex: 1,
     };
     this.getBodyMarkup = this.getBodyMarkup.bind(this);
     this.createRow = this.createRow.bind(this);
@@ -20,6 +26,8 @@ class ShowInventory extends React.Component {
     this.toggleGetNewEntry2 = this.toggleGetNewEntry2.bind(this);
     this.sortEntriesByDate = this.sortEntriesByDate.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.setStartEndIndex = this.setStartEndIndex.bind(this);
   }
   componentDidMount() {
     this.props.getProductInventory(this.props.location.state._id);
@@ -30,6 +38,23 @@ class ShowInventory extends React.Component {
       ...prevState,
       [event.target.id]: event.target.value,
     }));
+  }
+  handlePageChange(newPage) {
+    this.setStartEndIndex(newPage);
+  }
+
+  setStartEndIndex(newPage) {
+    const { pageSize } = this.state;
+    const totalItems = this.props.entries.length;
+    const currentPage = newPage;
+    let startIndex = (currentPage - 1) * pageSize;
+    let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+    this.setState({
+      ...this.state,
+      startIndex: startIndex,
+      endIndex: endIndex,
+      currentPage: newPage,
+    });
   }
 
   toggleGetNewEntry2() {
@@ -68,7 +93,7 @@ class ShowInventory extends React.Component {
   getBodyMarkup() {
     const entries = this.props.entries;
     const markup = entries.sort(this.sortEntriesByDate).map(this.createRow);
-    return markup;
+    return markup.slice(this.state.startIndex, this.state.endIndex + 1);
   }
 
   toggleGetNewEntry() {
@@ -110,6 +135,7 @@ class ShowInventory extends React.Component {
     const bodyMarkup = this.getBodyMarkup();
     const finalRowMarkup = this.getFinalRowMarkup();
     const sortSelection = this.createSortSelectionMarkup();
+    const totalItems = this.props.entries.length;
     return (
       <>
         <h4 className="display-4 text-center">Inventory</h4>
@@ -134,6 +160,12 @@ class ShowInventory extends React.Component {
             toggle={this.toggleGetNewEntry}
           />
         ) : null}
+        <Pagination
+          currentPage={this.state.currentPage}
+          totalItems={totalItems}
+          pageSize={this.state.pageSize}
+          handlePageChange={this.handlePageChange}
+        />
       </>
     );
   }
