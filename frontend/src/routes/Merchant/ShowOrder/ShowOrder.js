@@ -105,7 +105,6 @@ class ShowOrder extends React.Component {
     );
   }
   render() {
-    console.log(this.props.orders);
     const markup = this.props.orders.map(this.createTable);
     return (
       <>

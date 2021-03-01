@@ -10,6 +10,7 @@ class ShowInventory extends React.Component {
     super(props);
     this.state = {
       getNewEntry: false,
+      sortEntriesByDateType: "Default",
     };
     this.getBodyMarkup = this.getBodyMarkup.bind(this);
     this.createRow = this.createRow.bind(this);
@@ -17,9 +18,18 @@ class ShowInventory extends React.Component {
     this.getFinalRowMarkup = this.getFinalRowMarkup.bind(this);
     this.toggleGetNewEntry = this.toggleGetNewEntry.bind(this);
     this.toggleGetNewEntry2 = this.toggleGetNewEntry2.bind(this);
+    this.sortEntriesByDate = this.sortEntriesByDate.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
     this.props.getProductInventory(this.props.location.state._id);
+  }
+
+  handleChange(event) {
+    this.setState((prevState) => ({
+      ...prevState,
+      [event.target.id]: event.target.value,
+    }));
   }
 
   toggleGetNewEntry2() {
@@ -30,6 +40,20 @@ class ShowInventory extends React.Component {
     const dateObject = new Date(date);
     const options = { timeStyle: "medium", dateStyle: "medium" };
     return new Intl.DateTimeFormat([], options).format(dateObject);
+  }
+
+  sortEntriesByDate(a, b) {
+    const type = this.state.sortEntriesByDateType;
+    const dateA = new Date(a.Date);
+    const dateB = new Date(b.Date);
+    switch (type) {
+      case "Ascending":
+        return dateA > dateB ? 1 : -1;
+      case "Descending":
+        return dateA > dateB ? -1 : 1;
+      default:
+        return a;
+    }
   }
 
   createRow(entry) {
@@ -43,7 +67,7 @@ class ShowInventory extends React.Component {
 
   getBodyMarkup() {
     const entries = this.props.entries;
-    const markup = entries.map(this.createRow);
+    const markup = entries.sort(this.sortEntriesByDate).map(this.createRow);
     return markup;
   }
 
@@ -67,14 +91,30 @@ class ShowInventory extends React.Component {
     );
   }
 
+  createSortSelectionMarkup() {
+    return (
+      <select
+        id="sortEntriesByDateType"
+        className="form-select"
+        onChange={this.handleChange}
+      >
+        <option value="">Default</option>
+        <option value="Ascending">Oldest First</option>
+        <option value="Descending">Newest First</option>
+      </select>
+    );
+  }
+
   render() {
     const name = this.props.location.state.name;
     const bodyMarkup = this.getBodyMarkup();
     const finalRowMarkup = this.getFinalRowMarkup();
+    const sortSelection = this.createSortSelectionMarkup();
     return (
       <>
         <h4 className="display-4 text-center">Inventory</h4>
         <h5 className="display-5 text-center">{name}</h5>
+        {sortSelection}
         <table className="table">
           <thead>
             <tr>
