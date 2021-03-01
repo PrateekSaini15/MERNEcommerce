@@ -26,6 +26,7 @@ class Catalog extends React.Component {
     this.setStartEndIndex = this.setStartEndIndex.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.getFilterProductsLength = this.getFilterProductsLength.bind(this);
+    this.createCard = this.createCard.bind(this);
   }
 
   componentDidMount() {
@@ -51,6 +52,29 @@ class Catalog extends React.Component {
       style: "currency",
       currency: "INR",
     }).format(value);
+  }
+
+  createCard(product) {
+    return (
+      <div className="col-sm-6" key={product._id}>
+        <div className="card" style={{ width: "18rem" }}>
+          <img src="logo192.png" className="card-img-top" alt="..." />
+          <div className="card-body">
+            <h5 className="card-title">{product.name}</h5>
+            <h6 className="card-subtitle mb-2 text-muted">
+              {this.numberFormat(product.price)}
+            </h6>
+            <p className="card-text">{product.description}</p>
+            <button
+              className="btn"
+              onClick={() => this.props.addToCart(product)}
+            >
+              <i className="bi bi-cart-plus" style={{ color: "green" }}></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   createMarkup(product) {
@@ -111,12 +135,12 @@ class Catalog extends React.Component {
       .map((product) => {
         let mark = "";
         if (this.state.currentCategory === "") {
-          mark = this.createMarkup(product);
+          mark = this.createCard(product);
         } else {
           let category = [];
           this.getChildrenCategory(this.props.categories, category);
           if (category.includes(product.category)) {
-            mark = this.createMarkup(product);
+            mark = this.createCard(product);
           }
         }
         return mark;
@@ -193,7 +217,7 @@ class Catalog extends React.Component {
             </select>
           </div>
         </div>
-        <table className="table">
+        {/* <table className="table">
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -202,7 +226,8 @@ class Catalog extends React.Component {
             </tr>
           </thead>
           <tbody>{markup}</tbody>
-        </table>
+        </table> */}
+        <div className="row">{markup}</div>
         <Pagination
           currentPage={this.state.currentPage}
           totalItems={totalItems}
