@@ -2,6 +2,8 @@ import {
   SET_CURRENT_USER,
   LOGOUT_CURRENT_USER,
   LOGIN_ERROR,
+  SIGNUP_USER,
+  USER_SIGNUP_ERROR,
 } from "./actionTypes";
 import axios from "../axios";
 
@@ -28,4 +30,14 @@ export const isLoggedin = () => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("token");
   dispatch({ type: LOGOUT_CURRENT_USER });
+};
+
+export const signupUser = (signupDetails, history) => async (dispatch) => {
+  try {
+    await axios.post("/api/signup", signupDetails);
+    dispatch({ type: SIGNUP_USER });
+    history.push("/user/signin");
+  } catch (error) {
+    dispatch({ type: USER_SIGNUP_ERROR, payload: error.response.data });
+  }
 };

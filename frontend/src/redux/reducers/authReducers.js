@@ -1,4 +1,8 @@
-import { SET_CURRENT_USER, LOGOUT_CURRENT_USER } from "../actions/actionTypes";
+import {
+  SET_CURRENT_USER,
+  LOGOUT_CURRENT_USER,
+  USER_SIGNUP_ERROR,
+} from "../actions/actionTypes";
 
 const initialState = {
   isAuthenticated: false,
@@ -6,6 +10,7 @@ const initialState = {
   user: {},
   loading: true,
   token: null,
+  errors: {},
 };
 
 export default function authReducer(state = initialState, action) {
@@ -23,6 +28,11 @@ export default function authReducer(state = initialState, action) {
         isAuthenticated: false,
         token: null,
         isAuthenticating: false,
+      };
+    case USER_SIGNUP_ERROR:
+      return {
+        ...state,
+        errors: { ...action.payload },
       };
     default:
       return state;

@@ -15,7 +15,7 @@ class FormInput extends React.Component {
         <div className="col-3">
           <input
             type={this.props.type}
-            id={this.props.label.toLowerCase()}
+            id={this.props.id ? this.props.id : this.props.label.toLowerCase()}
             value={this.props.value ? this.props.value : ""}
             min={this.props.min ? this.props.min : null}
             max={this.props.max ? this.props.max : null}
