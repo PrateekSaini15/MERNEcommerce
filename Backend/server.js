@@ -60,6 +60,14 @@ app.use(
 );
 app.use("/api/cart", isUser, cartRoutes);
 app.use("/api", userRoutes);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "..", "frontend", "build")));
+  app.get("*", (req, resp) => {
+    resp.sendFile(
+      path.join(__dirname, "..", "frontend", "build", "index.html")
+    );
+  });
+}
 app.listen(process.env.PORT, () =>
   console.log(`Server is running on ${process.env.PORT}`)
 );
