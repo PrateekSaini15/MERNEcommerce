@@ -2,6 +2,7 @@ import {
   LOGIN_MERCHANT_USER,
   LOGOUT_MERCHANT_USER,
   LOGIN_ERROR,
+  MERCHANT_SIGNUP_ERROR,
 } from "./actionTypes";
 import axios from "../axios";
 
@@ -28,4 +29,13 @@ export const isLoggedin = () => (dispatch) => {
 export const logoutMerchant = () => (dispatch) => {
   localStorage.removeItem("merchantToken");
   dispatch({ type: LOGOUT_MERCHANT_USER });
+};
+
+export const signupMerchant = (signupDetails, history) => async (dispatch) => {
+  try {
+    await axios.post("/api/merchant/signup", signupDetails);
+    history.push("/merchant/signin");
+  } catch (error) {
+    dispatch({ type: MERCHANT_SIGNUP_ERROR, payload: error.response.data });
+  }
 };

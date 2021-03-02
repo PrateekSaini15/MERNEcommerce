@@ -25,6 +25,9 @@ class Header extends React.Component {
               <LinkContainer to="/merchant/signin">
                 <Nav.Link>Merchant Signin</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/merchant/signup">
+                <Nav.Link>Merchant Signup</Nav.Link>
+              </LinkContainer>
               <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">

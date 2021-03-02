@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 
 import AdminSignin from "./routes/Admin/AdminSignin/AdminSignin";
 import MerchantSignin from "./routes/Merchant/MerchantSignin/MerchantSignin";
+import MerchantSignup from "./routes/Landing/MerchantSignup/MerchantSignup";
 import UserSignin from "./routes/Landing/UserSignin/UserSignin";
 import UserSignup from "./routes/Landing/UserSignup/UserSignup";
 import AdminHome from "./routes/Admin/AdminHome/AdminHome";
@@ -25,6 +26,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/admin/signin" component={AdminSignin} />
               <Route path="/merchant/signin" component={MerchantSignin} />
+              <Route path="/merchant/signup" component={MerchantSignup} />
               <Route path="/user/signin" component={UserSignin} />
               <Route path="/user/signup" component={UserSignup} />
               <MerchantProtectedRoute
