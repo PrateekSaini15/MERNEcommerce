@@ -26,7 +26,13 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(cors());
-mongoose.connect(`mongodb://localhost/${process.env.MONGODB_DATABASE}`, {
+// mongoose.connect(`mongodb://localhost/${process.env.MONGODB_DATABASE}`, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+// });
+
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
