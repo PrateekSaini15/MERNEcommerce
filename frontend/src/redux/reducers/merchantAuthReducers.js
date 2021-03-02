@@ -1,6 +1,7 @@
 import {
   LOGIN_MERCHANT_USER,
   LOGOUT_MERCHANT_USER,
+  MERCHANT_SIGNUP_ERROR,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -9,6 +10,7 @@ const initialState = {
   user: {},
   loading: true,
   token: null,
+  errors: {},
 };
 
 export default function authReducer(state = initialState, action) {
@@ -26,6 +28,11 @@ export default function authReducer(state = initialState, action) {
         isAuthenticated: false,
         token: null,
         isAuthenticating: false,
+      };
+    case MERCHANT_SIGNUP_ERROR:
+      return {
+        ...state,
+        errors: { ...action.payload },
       };
     default:
       return state;
